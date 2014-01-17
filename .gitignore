@@ -1,0 +1,13 @@
+build/*
+*.log
+*.log.*
+*.csv
+*.xls
+*.zip
+*.bz2
+*.gz
+*.bin
+*.xlsx
+*.diff
+*.kwm
+!delete.me
