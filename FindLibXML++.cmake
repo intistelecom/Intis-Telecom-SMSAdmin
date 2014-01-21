@@ -9,14 +9,8 @@
 # LIBXMLPP_MIN_VERSION
 
 set(LIBXMLPP_MIN_VERSION 2.35)
-
-if(LIBXMLPP_LIBRARIES AND LIBXMLPP_INCLUDE_DIRS)
-    set(LIBXMLPP_FOUND TRUE)
-else(LIBXMLPP_LIBRARIES AND LIBXMLPP_INCLUDE_DIRS)
-    include(FindPkgConfig)
-    pkg_check_modules(LIBXMLPP REQUIRED libxml++-2.6>=${LIBXMLPP_MIN_VERSION})
-    message(STATUS "Found LibXml++: ${LIBXMLPP_LIBRARIES}")
-    include_directories(BEFORE ${LIBXMLPP_INCLUDE_DIRS})
-    target_link_libraries(smsadmin ${LIBXMLPP_LIBRARIES})
-
-endif(LIBXMLPP_LIBRARIES AND LIBXMLPP_INCLUDE_DIRS)
+include(FindPkgConfig)
+pkg_check_modules(LIBXMLPP REQUIRED libxml++-2.6>=${LIBXMLPP_MIN_VERSION})
+message(STATUS "Found LibXml++: ${LIBXMLPP_LIBRARIES}")
+include_directories(BEFORE ${LIBXMLPP_INCLUDE_DIRS})
+target_link_libraries(smsadmin ${LIBXMLPP_LIBRARIES})
