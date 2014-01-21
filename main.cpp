@@ -42,29 +42,29 @@ int main()
     //проверяем результат инициализации
     if (curl)
     {
-      //задаем все необходимые опции
-      //определяем, куда выводить ошибки
-      curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errorBuffer);
-      //задаем опцию - получить страницу по адресу http://google.com
-      curl_easy_setopt(curl, CURLOPT_URL, "www.google.com");
-      //задаем опцию отображение заголовка страницы
-      curl_easy_setopt(curl, CURLOPT_HEADER, 0);
-      //указываем функцию обратного вызова для записи получаемых данных
-      curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writer);
-      //указываем куда записывать принимаемые данные
-      curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
-      //запускаем выполнение задачи
-      result2 = curl_easy_perform(curl);
-      //проверяем успешность выполнения операции
-      if (result2 == CURLE_OK)
-      //выводим полученные данные на стандартный вывод (консоль)
+        //задаем все необходимые опции
+        //определяем, куда выводить ошибки
+        curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errorBuffer);
+        //задаем опцию - получить страницу по адресу http://google.com
+        curl_easy_setopt(curl, CURLOPT_URL, "www.google.com");
+        //задаем опцию отображение заголовка страницы
+        curl_easy_setopt(curl, CURLOPT_HEADER, 0);
+        //указываем функцию обратного вызова для записи получаемых данных
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writer);
+        //указываем куда записывать принимаемые данные
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
+        //запускаем выполнение задачи
+        result2 = curl_easy_perform(curl);
+        //проверяем успешность выполнения операции
+        if (result2 == CURLE_OK)
+        //выводим полученные данные на стандартный вывод (консоль)
         cout << buffer << "\n";
-      else
+        else
         //выводим сообщение об ошибке
         cout << "Ошибка! " << errorBuffer << endl;
-  }
-  //завершаем сессию
-  curl_easy_cleanup(curl);
+    }
+    //завершаем сессию
+    curl_easy_cleanup(curl);
 
     return 0;
 }
