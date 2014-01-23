@@ -17,28 +17,28 @@ int main()
 {
     CURLcode result2;
     result2 = send_xml_request();
-    //проверяем успешность выполнения операции
+    /// проверяем успешность выполнения операции
     if (result2 == CURLE_OK)
     {
-        // Parse the file
+        /// Parse the file
         DomParser parser;
         parser.parse_memory(buffer);
         Node* rootNode = parser.get_document()->get_root_node();
 
-        // Xpath query
+        /// Xpath query
         NodeSet result = rootNode->find("/response/error");
 
-        // Get first node from result
+        /// Get first node from result
         Node *firstNodeInResult = result.at(0);
         Element *el = dynamic_cast<Element*>(firstNodeInResult);
         // Cast to Attribute node (dynamic_cast on reference can throw [fail fast])
         // Attribute &attribute = dynamic_cast<Attribute&>(*firstNodeInResult);
 
-        // Get value of the attribute
+        /// Get value of the attribute
         // ustring attributeValue = attribute.get_value();
         ustring attributeValue = el->get_child_text()->get_content();
 
-        // Print attribute value
+        /// Print attribute value
         cout << attributeValue << endl;
         //выводим полученные данные на стандартный вывод (консоль)
         // cout << buffer << "\n";
@@ -52,12 +52,12 @@ int main()
 
 CURLcode send_xml_request()
 {
-    //необходимые CURL объекты
+    /// необходимые CURL объекты
     CURL *curl;
     CURLcode result;
-    //инициализируем curl
+    /// инициализируем curl
     curl = curl_easy_init();
-    //проверяем результат инициализации
+    /// проверяем результат инициализации
     if (curl)
     {
         //задаем все необходимые опции

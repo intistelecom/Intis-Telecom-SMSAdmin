@@ -10,4 +10,7 @@ build/*
 *.xlsx
 *.diff
 *.kwm
+*.cbp
+*.layout
+*.txt.user
 !delete.me
