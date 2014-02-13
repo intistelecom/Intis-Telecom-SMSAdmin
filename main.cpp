@@ -1,25 +1,31 @@
 #include <iostream>
 #include <libxml++/libxml++.h>
 #include <curl/curl.h>
+#include <sms16xapi/constants.h>
 
 using namespace std;
 using namespace Glib;
 using namespace xmlpp;
 
-//объявляем буфер, для хранения возможной ошибки, размер определяется в самой библиотеке
+///объявляем буфер, для хранения возможной ошибки, размер определяется в самой библиотеке
 static char errorBuffer[CURL_ERROR_SIZE];
-//объялвяем буфер принимаемых данных
+///объялвяем буфер принимаемых данных
 static ustring buffer;
 static int writer(char *data, size_t size, size_t nmemb, ustring *buffer);
 CURLcode send_xml_request();
 
 int main()
 {
+    cout << sms16xapi::SMS_URL << endl;
     CURLcode result2;
     result2 = send_xml_request();
+
     /// проверяем успешность выполнения операции
     if (result2 == CURLE_OK)
     {
+        /// выводим полученные данные на стандартный вывод (консоль)
+        cout << buffer << "\n";
+
         /// Parse the file
         DomParser parser;
         parser.parse_memory(buffer);
@@ -40,10 +46,9 @@ int main()
 
         /// Print attribute value
         cout << attributeValue << endl;
-        //выводим полученные данные на стандартный вывод (консоль)
-        // cout << buffer << "\n";
+
     } else {
-        //выводим сообщение об ошибке
+        ///выводим сообщение об ошибке
         cout << "Ошибка! " << errorBuffer << endl;
     }
 
@@ -60,39 +65,40 @@ CURLcode send_xml_request()
     /// проверяем результат инициализации
     if (curl)
     {
-        //задаем все необходимые опции
-        //определяем, куда выводить ошибки
+        ///задаем все необходимые опции
+        ///определяем, куда выводить ошибки
         curl_easy_setopt(curl, CURLOPT_ERRORBUFFER, errorBuffer);
-        //задаем опцию - получить страницу по адресу http://google.com
-        curl_easy_setopt(curl, CURLOPT_URL, "xml.sms16.ru/xml/");
-        //задаем опцию отображение заголовка страницы
+        ///задаем опцию - получить страницу по адресу http://google.com
+        curl_easy_setopt(curl, CURLOPT_URL, sms16xapi::SMS_URL.c_str());
+        ///задаем опцию отображение заголовка страницы
         curl_easy_setopt(curl, CURLOPT_HEADER, 0);
-        //указываем функцию обратного вызова для записи получаемых данных
+        //curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+        ///указываем функцию обратного вызова для записи получаемых данных
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writer);
-        //указываем куда записывать принимаемые данные
+        ///указываем куда записывать принимаемые данные
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
-        //запускаем выполнение задачи
+        ///запускаем выполнение задачи
         result = curl_easy_perform(curl);
     }
-    //завершаем сессию
+    ///завершаем сессию
     curl_easy_cleanup(curl);
     return result;
 }
 
-//функция обратного вызова
+///функция обратного вызова
 static int writer(char *data, size_t size, size_t nmemb, ustring *buffer)
 {
-    //переменная - результат, по умолчанию нулевая
+    ///переменная - результат, по умолчанию нулевая
     int result = 0;
-    //проверяем буфер
+    ///проверяем буфер
     if (buffer != NULL)
     {
-        //добавляем к буферу строки из data, в количестве nmemb
+        ///добавляем к буферу строки из data, в количестве nmemb
         buffer->append(data, size * nmemb);
-        //вычисляем объем принятых данных
+        ///вычисляем объем принятых данных
         result = size * nmemb;
     }
-    //вовзращаем результат
+    ///вовзращаем результат
     return result;
 }
 
