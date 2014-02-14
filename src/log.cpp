@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <iostream>
 #include "log.h"
 
 namespace smsadmin {
