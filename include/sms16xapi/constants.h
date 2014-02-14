@@ -12,6 +12,7 @@ const ustring VERSION     = "1.0";
 
 /**
  * Default urls for sms16.ru
+ * TODO: Redefine them from configuration file and Config object
  */
 const ustring BALANCE_URL = "https://xml.sms16.ru/xml/balance.php";
 const ustring SMS_URL     = "https://xml.sms16.ru/xml/index.php";
