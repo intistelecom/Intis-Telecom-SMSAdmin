@@ -17,6 +17,14 @@ int main(int argc, char **argv)
     logger.info("test info level");
     logger.error("write some error string");
 
+    try {
+        logger.dump();
+    } catch (exception &e) {
+        std::string old(logger.set_package("log"));
+        logger.error(e.what())
+              .set_package(old);
+    }
+    logger.info("Test other string after log error");
     logger.set_inited(true).dump();
 
     return 0;
