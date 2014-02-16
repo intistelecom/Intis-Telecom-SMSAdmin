@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <cstdarg>
+#include <cstdio>
 #include <stdexcept>
 #include "log.h"
 
@@ -63,11 +62,18 @@ void Entity::_check_null_desc()
 
 std::string format(const char* fmt, ...)
 {
+    va_list vl;
+    va_start(vl, fmt);
+    std::string frmd(format(fmt, vl));
+    va_end(vl);
+    return frmd;
+}
+
+std::string format(const char* fmt, va_list &vl)
+{
     int size = 1024;
     char* buffer = 0;
     buffer = new char[size];
-    va_list vl;
-    va_start(vl, fmt);
     int nsize = vsnprintf(buffer, size, fmt, vl);
     if(size<=nsize) /// fail delete buffer and try again
     {
@@ -77,7 +83,6 @@ std::string format(const char* fmt, ...)
         nsize = vsnprintf(buffer, size, fmt, vl);
     }
     std::string ret(buffer);
-    va_end(vl);
     delete[] buffer;
     return ret;
 }

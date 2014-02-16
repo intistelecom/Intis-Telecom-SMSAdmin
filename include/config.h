@@ -13,26 +13,21 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include <map>
+#include <string>
+
 namespace smsadmin {
 namespace config {
 
+typedef std::map<std::string, std::string> cfg;
+
+cfg& get_instance();
+
 /**
- * Implements configuration aspect of smsadmin. Use Sigletone pattern
+ * Parse command line parameters
  *
  */
-class Config
-{
-    public:
-        ~Config();
-
-        static Config& get_instance();
-
-    protected:
-    private:
-        Config();
-        Config(Config const&);
-        void operator=(Config const&);
-};
+void parse_cmd_params(int, char**);
 
 }}
 #endif // CONFIG_H

@@ -13,8 +13,9 @@
 #define LOG_H
 
 #include <string>
-#include <time.h>
+#include <ctime>
 #include <vector>
+#include <cstdarg>
 
 namespace smsadmin {
 namespace log {
@@ -39,12 +40,12 @@ const Level ERROR = {3, "error"};
  *
  */
 std::string format(const char* fmt, ...);
+std::string format(const char* fmt, va_list&);
 
 class Entity;
 
 /**
  * Implements logging aspect of smsadmin. Use Sigletone pattern
- * TODO: implement params formater in functions debug(), error(), info()
  *
  */
 class Log
@@ -83,7 +84,7 @@ class Log
         int  level;                  /// Log level to filter entries
         std::string package;
 
-        void _write(Entity*, const std::string&, ...);
+        void _write(Entity*, const std::string&, va_list&);
         void _write(Entity*);
     private:
         Log();
