@@ -33,6 +33,7 @@ class Entity;
 
 /**
  * Implements logging aspect of smsadmin. Use Sigletone pattern
+ * TODO: implement params formater in functions debug(), error(), info()
  *
  */
 class Log
@@ -47,9 +48,9 @@ class Log
         Log& info (const std::string&, ...);
 
         /**
-         * Save buffer to initad starage
-         * @throws std::runtime_error Storage is not initialized yet
+         * Save buffer to inited storage
          *
+         * @throws std::runtime_error Storage is not initialized yet
          */
         Log& dump();
 
@@ -67,7 +68,7 @@ class Log
     protected:
         bool inited;                 /// Set to true on inited config. Until use buffer to push log
         std::vector<Entity*> buffer; /// Use this buffer to store log entities, before init config
-        bool verbose;                /// Dublicate log to console std::cout
+        bool verbose;                /// Dublicate log to console, std::cout
         int  level;                  /// Log level to filter entries
         std::string package;
 
@@ -80,7 +81,7 @@ class Log
 };
 
 /**
- * Implements the presentation of log entry/ Example:
+ * Implements the presentation of log entry. Example:
  * time ISO8601             | log level | programm part | text description |
  * 2014-02-14T18:38:07+0400 | debug     | init          | some text        |
  *
