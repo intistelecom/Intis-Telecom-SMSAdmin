@@ -14,19 +14,31 @@ Log::Log() : inited(false), buffer(50), verbose(false)
 
 Log& Log::debug(const std::string &str, ...)
 {
-    _write(new Entity(DEBUG), str);
+    va_list args;
+    va_start (args, str);
+    _write(new Entity(DEBUG), str, args);
+    va_end(args);
+
     return *(this);
 }
 
 Log& Log::error(const std::string &str, ...)
 {
-    _write(new Entity(ERROR), str);
+    va_list args;
+    va_start (args, str);
+    _write(new Entity(ERROR), str, args);
+    va_end(args);
+
     return *(this);
 }
 
 Log& Log::info (const std::string &str, ...)
 {
-    _write(new Entity(INFO), str);
+    va_list args;
+    va_start(args, str);
+    _write(new Entity(INFO), str, args);
+    va_end(args);
+
     return *(this);
 }
 
@@ -69,9 +81,9 @@ std::string Log::set_package(const std::string &p)
     return old;
 }
 
-void Log::_write(Entity *ent, const std::string &str, ...)
+void Log::_write(Entity *ent, const std::string &str, va_list &args)
 {
-    ent->set_desc(str)
+    ent->set_desc(format(str.c_str(), args))
        ->set_cmd(package);
 
     if (inited)
