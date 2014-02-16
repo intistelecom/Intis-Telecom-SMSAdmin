@@ -29,7 +29,7 @@ int main(int argc, char **argv)
     logger.info("Test other string after log error");
     logger.set_inited(true).dump();
 
-    std::cout << help();
+    cout << help();
 
     return 0;
 }
