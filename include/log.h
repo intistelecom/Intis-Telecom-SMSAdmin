@@ -1,3 +1,14 @@
+/**
+ * Define log package logic
+ *
+ * @date 14/02/2014
+ * @time 13:02:00
+ * @version 0.1
+ * @task #8
+ * @author Alexander M Artamonov <art.alex.m@gmail.com>
+ * @package log
+ */
+
 #ifndef LOG_H
 #define LOG_H
 

@@ -1,4 +1,5 @@
-#include "log.h"
+#include <iostream>
+#include "smsadmin.h"
 
 using namespace std;
 using namespace smsadmin;
@@ -27,6 +28,8 @@ int main(int argc, char **argv)
     }
     logger.info("Test other string after log error");
     logger.set_inited(true).dump();
+
+    std::cout << help();
 
     return 0;
 }
