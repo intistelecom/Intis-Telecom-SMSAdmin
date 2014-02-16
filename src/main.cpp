@@ -13,9 +13,10 @@ int main(int argc, char **argv)
           .set_level(log::INFO);
 
     logger.set_package("init");
-    logger.debug("some test");
-    logger.info("test info level");
-    logger.error("write some error string");
+    logger.debug("Some test");
+    logger.info("Test info level");
+    logger.error("Write some error string");
+    logger.info("Проверим строки в utf-8");
 
     try {
         logger.dump();
