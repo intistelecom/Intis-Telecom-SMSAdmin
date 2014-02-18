@@ -21,8 +21,19 @@ int main(int argc, char **argv)
         .set_inited(true)
         .dump();
 
-    cout << endl;
-    cout << help() << endl;
+    if (conf().count("action")) {
+        string action(conf["action"].as<string>());
 
-    return 0;
+        if ("balance" == action) {
+            if (!conf().count("token")) {
+                logger.set_verbose(1).error("Required parameter 'token' not set");
+            } else {
+                cout << "Balance for account is: " << balance() << endl;
+                return 0;
+            }
+        }
+    }
+
+    cout << help();
+    return 1;
 }

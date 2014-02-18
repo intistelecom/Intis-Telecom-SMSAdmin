@@ -14,7 +14,6 @@
 #define SMSADMIN_H_INCLUDED
 
 #include <sms16xapi/sms16xapi>
-#include <typeinfo>
 #include "config.h"
 #include "log.h"
 
