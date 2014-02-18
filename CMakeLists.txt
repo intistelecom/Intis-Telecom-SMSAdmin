@@ -11,6 +11,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE)
 message(STATUS "Set build type to ${CMAKE_BUILD_TYPE}")
 
+find_package(BoostPO REQUIRED)
 find_package(LibXML++ REQUIRED)
 find_package(Curl REQUIRED)
 

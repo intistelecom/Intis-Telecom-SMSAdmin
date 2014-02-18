@@ -13,21 +13,44 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include <map>
 #include <string>
+#include <boost/program_options.hpp>
+
+namespace po = boost::program_options;
 
 namespace smsadmin {
 namespace config {
 
-typedef std::map<std::string, std::string> cfg;
-
-cfg& get_instance();
-
 /**
- * Parse command line parameters
+ * Implements configuration aspect of smsadmin. Use Sigletone pattern
  *
  */
-void parse_cmd_params(int, char**);
+class Config
+{
+    public:
+        static Config& get_instance();
+
+        void parse_cmd_params(int, char**);
+        const po::variable_value& get(const std::string&);
+        const po::variable_value& operator[](const std::string&);
+        const po::variables_map&  operator()();
+        std::string help();
+        bool has_error();
+
+    protected:
+        po::options_description all,
+                                general,
+                                hidden;
+        po::positional_options_description numeric;
+        po::variables_map vm;
+
+        bool is_error;
+
+    private:
+        Config();
+        Config(Config const&);
+        void operator=(Config const&);
+};
 
 }}
 #endif // CONFIG_H

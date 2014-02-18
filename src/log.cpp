@@ -42,6 +42,16 @@ Log& Log::info (const std::string &str, ...)
     return *(this);
 }
 
+Log& Log::warn (const std::string &str, ...)
+{
+    va_list args;
+    va_start(args, str);
+    _write(new Entity(WARN), str, args);
+    va_end(args);
+
+    return *(this);
+}
+
 Log& Log::dump()
 {
     if (!inited)
