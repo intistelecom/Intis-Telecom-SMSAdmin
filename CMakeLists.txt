@@ -2,9 +2,18 @@ project(smsadmin)
 cmake_minimum_required(VERSION 2.6)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR})
-aux_source_directory(./src SRC_LIST)
-add_executable(${PROJECT_NAME} ${SRC_LIST})
+
 include_directories("./include/")
+aux_source_directory("./src" SRC_LIST)
+aux_source_directory("./src/sms16xapi" SRC_LIST)
+add_executable(${PROJECT_NAME} ${SRC_LIST})
+
+#add_library("sms16xapi"
+#            SHARED
+#            "./src/sms16xapi/object.cpp"
+#            "./src/sms16xapi/req_balance.cpp"
+#            "./src/sms16xapi/balance.cpp"
+#            )
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)

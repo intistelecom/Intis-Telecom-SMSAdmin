@@ -1,6 +1,7 @@
 #include <vector>
 #include <sstream>
 #include <exception>
+#include <typeinfo>
 #include "config.h"
 #include "log.h"
 
@@ -81,18 +82,17 @@ Config::Config(): general("Global options"), is_error(false)
     {
         general.add_options()
             ("verbose,v", po::value<int>()->implicit_value(1)->default_value(0), "Verbose output. Dumps log in console")
-            ("help,h", "Produce this help");
-
-        po::options_description balance("Balance command options");
-        balance.add_options()
-            ("token,t", po::value<string>(), "Token for requested account. See your provider help to choose token");
+            ("help,h", "Produce this help")
+            ("token,t", po::value<string>(), "Token for requested account. See your provider help to choose token")
+            ;
 
         hidden.add_options()
-            ("action", po::value<string>()->default_value("help")->required(), "Action to execute");
+            ("action", po::value<string>()->default_value("help")->required(), "Action to execute")
+            ;
 
         numeric.add("action", 1);
 
-        all.add(general.add(balance)).add(hidden);
+        all.add(general).add(hidden);
     } catch (exception &e) {
         logger.error("Catch exeption on config init: %s, %s", typeid(e).name(), e.what());
     }

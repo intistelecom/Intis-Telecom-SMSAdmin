@@ -1,34 +1,34 @@
 #ifndef CONSTANTS_H_INCLUDED
 #define CONSTANTS_H_INCLUDED
 
-#include <glibmm/ustring.h>
+#include <string>
 
 namespace sms16xapi {
 
-using namespace Glib;
+using namespace std;
 
-const ustring API_VERSION = "1.4";
-const ustring VERSION     = "1.0";
+const string API_VERSION = "1.4";
+const string VERSION     = "1.0";
 
 /**
  * Default urls for sms16.ru
  * TODO: Redefine them from configuration file and Config object
  */
-const ustring BALANCE_URL = "https://xml.sms16.ru/xml/balance.php";
-const ustring SMS_URL     = "https://xml.sms16.ru/xml/index.php";
-const ustring STATE_URL   = "https://xml.sms16.ru/xml/state.php";
+const string BALANCE_URL = "https://xml.sms16.ru/xml/balance.php";
+const string SMS_URL     = "https://xml.sms16.ru/xml/index.php";
+const string STATE_URL   = "https://xml.sms16.ru/xml/state.php";
 
 /**
  * Message states
  */
-const ustring DELIVER = "deliver";
-const ustring REJECT  = "reject";
-const ustring EXPIRED = "expired";
-const ustring PARTLY_DELIVER = "partly_deliver";
-const ustring NOT_DELIVER    = "not_deliver";
-const ustring NEW  = "new";
-const ustring RECEIVED = "recieved";
-const ustring SEND = "send";
+const string DELIVER = "deliver";
+const string REJECT  = "reject";
+const string EXPIRED = "expired";
+const string PARTLY_DELIVER = "partly_deliver";
+const string NOT_DELIVER    = "not_deliver";
+const string NEW  = "new";
+const string RECEIVED = "recieved";
+const string SEND = "send";
 
 }
 
