@@ -14,10 +14,13 @@
 #define SMSADMIN_H_INCLUDED
 
 #include <sms16xapi/sms16xapi>
+#include <typeinfo>
 #include "config.h"
 #include "log.h"
 
 namespace smsadmin {
+
+#define SMSADMIN_BUILD_DATE "2014-02-14 14:58:00"
 
 const std::string VERSION = "0.1";
 

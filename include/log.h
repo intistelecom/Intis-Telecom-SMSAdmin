@@ -33,7 +33,8 @@ struct Level
 };
 const Level DEBUG = {1, "debug"};
 const Level INFO  = {2, "info"};
-const Level ERROR = {3, "error"};
+const Level WARN  = {3, "warn"};
+const Level ERROR = {4, "error"};
 
 /**
  * Implements string formating as fprintf() or same
@@ -58,6 +59,7 @@ class Log
         Log& debug(const std::string&, ...);
         Log& error(const std::string&, ...);
         Log& info (const std::string&, ...);
+        Log& warn (const std::string&, ...);
 
         /**
          * Save buffer to inited storage
