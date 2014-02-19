@@ -27,13 +27,16 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     find_package(Cppunit REQUIRED)
 endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-add_library("sms16xapi"
+set(SMS16XAPI "sms16xapi")
+set(SMS16XAPI_HDR "./include/sms16xapi/sms16xapi")
+set(SMS16XAPI_SRC "./src/sms16xapi/object.cpp;./src/sms16xapi/req_balance.cpp;./src/sms16xapi/balance.cpp")
+
+add_library(${SMS16XAPI}
             STATIC
-            "./src/sms16xapi/object.cpp"
-            "./src/sms16xapi/req_balance.cpp"
-            "./src/sms16xapi/balance.cpp"
+            ${SMS16XAPI_SRC}
+            ${SMS16AXPI_HDR}
             )
-target_link_libraries(${TARGET} sms16xapi)
+target_link_libraries(${TARGET} ${SMS16XAPI})
 
 configure_file(
     "${CMAKE_SOURCE_DIR}/global.cmake.h"
