@@ -13,4 +13,5 @@ build/*
 *.cbp
 *.layout
 *.txt.user
+include/global.h
 !delete.me
