@@ -13,7 +13,9 @@ using namespace std;
 string Config::help()
 {
     ostringstream help;
-    help << "Usage: smsadmin <action> [options] [params]" << endl << endl
+    help << "Usage: smsadmin <action> [options] [params]" << endl
+         << "Avalible actions:" << endl
+         << "  balance - shows balance for account by token" << endl << endl
          << general;
 
     return help.str();
