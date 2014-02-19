@@ -1,4 +1,5 @@
 #include <sstream>
+#include <exception>
 #include <curl/curl.h>
 #include "smsadmin.h"
 
@@ -37,7 +38,8 @@ string balance()
     sx::ReqBalance req(token);
     sx::Balance *b = new sx::Balance();
 
-    string xml = req.add(b).render();
+    string xml = req.add(b).render(); /// add(b) is require to get result
+    string answer;
     logger.debug(xml);
     CURLcode result = send_xml_request(sx::BALANCE_URL, xml);
 
@@ -47,18 +49,24 @@ string balance()
         buffer.clear();
         logger.debug(xml);
 
-        req.parse(xml); /// TODO: catch exceptions on parse
-        logger.info("Balance for account by token %s is: %s %s",
-                    token.c_str(),
-                    b->get_money().c_str(),
-                    b->get_currency().c_str()
-        );
+        try {
+            req.parse(xml); /// Sets attrs 'money', 'currency' for Balance *b
+            logger.info("Balance for account by token %s is: %s %s",
+                        token.c_str(),
+                        b->get_money().c_str(),
+                        b->get_currency().c_str()
+            );
+            answer = b->get_money() + " " + b->get_currency();
+        } catch (exception &e) {
+            logger.error("Catch error on parse: %s", e.what());
+            answer.append(e.what());
+        }
     } else {
         logger.error("Network error: %s", error_buffer);
     }
 
     logger.set_package(opkg);
-    return string(b->get_money()).append(b->get_currency());
+    return answer;
 }
 
 CURLcode send_xml_request(const string &url, const string &post)
