@@ -87,7 +87,7 @@ Config::Config(): general("Global options"), is_error(false)
             ;
 
         hidden.add_options()
-            ("action", po::value<string>()->default_value("help")->required(), "Action to execute")
+            ("action", po::value<string>()->default_value("help"), "Action to execute")
             ;
 
         numeric.add("action", 1);
