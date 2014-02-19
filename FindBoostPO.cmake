@@ -3,4 +3,4 @@ set(Boost_MIN_VERSION 1.41)
 
 find_package(Boost ${Boost_MIN_VERSION} REQUIRED COMPONENTS program_options)
 include_directories(${Boost_INCLUDE_DIRS})
-target_link_libraries(smsadmin ${Boost_LIBRARIES})
+target_link_libraries(${TARGET} ${Boost_LIBRARIES})

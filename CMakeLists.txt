@@ -1,19 +1,12 @@
-project(smsadmin)
+set(TARGET "smsadmin")
+project(${TARGET})
 cmake_minimum_required(VERSION 2.6)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR})
 
 include_directories("./include/")
 aux_source_directory("./src" SRC_LIST)
-aux_source_directory("./src/sms16xapi" SRC_LIST)
 add_executable(${PROJECT_NAME} ${SRC_LIST})
-
-#add_library("sms16xapi"
-#            SHARED
-#            "./src/sms16xapi/object.cpp"
-#            "./src/sms16xapi/req_balance.cpp"
-#            "./src/sms16xapi/balance.cpp"
-#            )
 
 set(SMSADMIN_BUILD_DATE "0000-00-00T00:00:00+0000")
 if (UNIX)
@@ -33,6 +26,14 @@ find_package(Curl REQUIRED)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     find_package(Cppunit REQUIRED)
 endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
+
+add_library("sms16xapi"
+            STATIC
+            "./src/sms16xapi/object.cpp"
+            "./src/sms16xapi/req_balance.cpp"
+            "./src/sms16xapi/balance.cpp"
+            )
+target_link_libraries(${TARGET} sms16xapi)
 
 configure_file(
     "${CMAKE_SOURCE_DIR}/global.cmake.h"
