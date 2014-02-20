@@ -32,11 +32,22 @@ set(SMS16XAPI_VER_MAJOR 0)
 set(SMS16XAPI_VER_MINOR 1)
 set(SMS16XAPI_VER_PATCH 0)
 set(SMS16XAPI_VER_STRING "${SMS16XAPI_VER_MAJOR}.${SMS16XAPI_VER_MINOR}.${SMS16XAPI_VER_PATCH}")
-set(SMS16XAPI_HDR "./include/sms16xapi/sms16xapi")
-set(SMS16XAPI_SRC "./src/sms16xapi/object.cpp;./src/sms16xapi/req_balance.cpp;./src/sms16xapi/balance.cpp")
+set(SMS16XAPI_HDR
+    "./include/sms16xapi/sms16xapi"
+    "./include/sms16xapi/sms16xapi.h"
+    "./include/sms16xapi/balance.h"
+    "./include/sms16xapi/constants.h"
+    "./include/sms16xapi/object.h"
+    "./include/sms16xapi/req_balance.h"
+    )
+set(SMS16XAPI_SRC
+    "./src/sms16xapi/object.cpp"
+    "./src/sms16xapi/req_balance.cpp"
+    "./src/sms16xapi/balance.cpp"
+    )
 
 add_library(${SMS16XAPI}
-            SHARED
+#            SHARED
             ${SMS16XAPI_SRC}
             ${SMS16AXPI_HDR}
             )
@@ -52,17 +63,18 @@ configure_file(
     "${CMAKE_SOURCE_DIR}/include/global.h"
 )
 
-set(CMAKE_INSTALL_PREFIX ".")
 set_target_properties(${TARGET}
    PROPERTIES BUILD_WITH_INSTALL_RPATH OFF
-   INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/../lib
-   INSTALL_NAME_DIR ${CMAKE_INSTALL_PREFIX}/bin
-   PUBLIC_HEADER ${CMAKE_INSTALL_PREFIX}/../include
+   INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/lib/
+   INSTALL_NAME_DIR ${CMAKE_INSTALL_PREFIX}/bin/
+ #  PUBLIC_HEADER ${CMAKE_INSTALL_PREFIX}/include/
    )
 
 install(TARGETS ${TARGET} ${SMS16XAPI}
    RUNTIME DESTINATION bin
    LIBRARY DESTINATION lib
-   ARCHIVE DESTINATION lib/static
-   PUBLIC_HEADER DESTINATION include
+   ARCHIVE DESTINATION lib
+#   PUBLIC_HEADER DESTINATION include
    )
+
+#install(FILES ${SMS16XAPI_HDR} DESTINATION include)
