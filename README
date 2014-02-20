@@ -1,0 +1,66 @@
+LICENSE
+============
+
+This is a legal agreement between you and Alexander M. Artamonov ("Licensor") from
+whom you have licensed the software (the "Software"). By using the Software,
+you agree to be bound by the terms of this License. If you do not agree to
+the terms of this License, the Licensor is unwilling to license the Software to you.
+In such event, you may not use the Software, and you should promptly contact
+the Licensor for return instructions.
+
+Licensor grants to you a limited, non-exclusive, license to use Licensor's
+Software and accompanying documentation in accordance with the terms and
+conditions of this License.
+
+Your use of the Software is restricted as follows:
+    The Software shall be used on a single stand-alone computer or a single network
+    node from which node the Software cannot be accessed by another computer.
+
+    The Software cannot be deployed over the internet, intranet or any other network
+    without providing for proper licensing.
+
+    This License is not a sale. Title and copyrights to the Software and accompanying
+    documentation remain with Licensor or its suppliers or licensors.
+
+    You may not reverse engineer the Software or use all or parts of Software for self
+    development
+
+    You are bound by these restrictions and all others set forth in this License.
+
+REQUIREMENTS
+============
+
+Build tools:
+- cmake 2.6+     (tested 2.8.8, 2.6.4)
+- gcc-c++ 4.4.7+ (tested 4.4.7, 4.7.1)
+- make 3.81+     (tested GNU 3.81, 3.82)
+
+Shared libraries with headers:
+- boost-program-options 1.41+ (tested 1.41, 1.49)
+- tinyxml 2.6+                (tested 2.6.1, 2.6.2)
+- curl 7.19+                  (tested 7.25.0, 7.19.7)
+
+INSTALL
+============
+
+Instalation guide for CentOS 6.5
+Firt install requirements (libraries installs automatic):
+    yum install -y gcc-c++ cmake boost-devel curl-devel tinyxml-devel
+Untar package
+    tar -zxf ./smsadmin-0.1.tar.gz
+Check build directory
+    cd ./smsadmin-0.1/build/
+Configure and make
+    cmake -DCMAKE_INSTALL_PREFIX=/usr/local/ ../
+    make
+    make install
+Last instruction installs binary file as /usr/local/bin/smsadmin
+NOTE: make uninstall not work, delete bin file manualy
+
+CHANGE LOG
+============
+
+version 0.1 "Cold Start"
+- process help information for a program (smsadmin --help)
+- checks balance for account by token (smsadmin balance -t <token>)
+- use verbose output to console (-v option)

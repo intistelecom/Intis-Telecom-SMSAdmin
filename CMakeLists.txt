@@ -8,6 +8,8 @@ include_directories("./include/")
 aux_source_directory("./src" SRC_LIST)
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 
+set(SMSADMIN_VER_NAME   "Cold Start")
+set(SMSADMIN_VERSION    "0.1")
 set(SMSADMIN_BUILD_DATE "0000-00-00T00:00:00+0000")
 if (UNIX)
     execute_process(COMMAND "date" "+%FT%T%z" OUTPUT_VARIABLE SMSADMIN_BUILD_DATE)
