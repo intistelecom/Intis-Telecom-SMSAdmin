@@ -29,7 +29,6 @@ set_target_properties(
     )
 
 find_package(LibXML++ REQUIRED)
-target_link_libraries(${TARGET} ${SMS16XAPI})
 
 set_target_properties(${SMS16XAPI}
    PROPERTIES BUILD_WITH_INSTALL_RPATH OFF
