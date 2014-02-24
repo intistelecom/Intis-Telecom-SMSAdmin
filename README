@@ -54,13 +54,16 @@ Configure and make
     cmake -DCMAKE_INSTALL_PREFIX=/usr/local/ ../
     make
     make install
-Last instruction installs binary file as /usr/local/bin/smsadmin
-NOTE: make uninstall not work, delete bin file manualy
+For detailed instalation see ./build/install_manifest.txt
 
 CHANGE LOG
 ============
 
-version 0.1 "Cold Start"
+version 0.1.1 "Cold Start"
+- add build for shared library sms16xapi.so
+- add uninstall taget for project as execute of ./build/delete.me
+
+version 0.1.0 "Cold Start"
 - process help information for a program (smsadmin --help)
 - checks balance for account by token (smsadmin balance -t <token>)
 - use verbose output to console (-v option)
