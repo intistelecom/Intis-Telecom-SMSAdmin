@@ -30,6 +30,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
 include(./sms16xapi.so.cmake)
+target_link_libraries(${TARGET} ${SMS16XAPI})
 
 set_target_properties(${TARGET}
    PROPERTIES BUILD_WITH_INSTALL_RPATH OFF
