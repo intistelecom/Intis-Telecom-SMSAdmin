@@ -20,10 +20,15 @@
 
 namespace smsadmin {
 
-const std::string VERSION = "0.1";
+const std::string ACTION_BALANCE = "balance";
+const std::string ACTION_SEND    = "send";
+const std::string ACTION_STATE   = "state";
+const std::string ACTION_HELP    = "help";
 
 std::string help();    /// Creates formated string with help
 std::string balance(); /// Returns balance for the given account
+std::string send();    /// Process send sms scenario
+std::string state();   /// Get state for sms
 
 }
 
