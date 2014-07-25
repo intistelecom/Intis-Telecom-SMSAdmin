@@ -69,6 +69,35 @@ string balance()
     return answer;
 }
 
+string send()
+{
+    config::Config &conf = config::Config::get_instance();
+    log::Log &logger = log::Log::get_instance();
+    string opkg(logger.set_package("send"));
+
+    ostringstream out;
+    vector<string> params = conf["params"].as< vector<string> >();
+    out << "Send action" << endl;
+
+    for(vector<string>::iterator p = params.begin(); p < params.end(); ++p) {
+        out << (*p) << endl;
+    }
+
+    logger.set_package(opkg);
+    return out.str();
+}
+
+string state()
+{
+    config::Config &conf = config::Config::get_instance();
+    log::Log &logger = log::Log::get_instance();
+    string opkg(logger.set_package("state"));
+
+
+    logger.set_package(opkg);
+    return "Get sms sate action";
+}
+
 CURLcode send_xml_request(const string &url, const string &post)
 {
     CURL *curl;

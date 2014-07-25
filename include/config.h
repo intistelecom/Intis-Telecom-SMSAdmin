@@ -40,6 +40,7 @@ class Config
     protected:
         po::options_description all,
                                 general,
+                                send,
                                 hidden;
         po::positional_options_description numeric;
         po::variables_map vm;

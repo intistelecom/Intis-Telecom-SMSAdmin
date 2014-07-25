@@ -24,13 +24,19 @@ int main(int argc, char **argv)
     if (conf().count("action")) {
         string action(conf["action"].as<string>());
 
-        if ("balance" == action) {
-            if (!conf().count("token")) {
-                logger.set_verbose(1).error("Required parameter 'token' not set");
-            } else {
+        if (conf().count("token")) {
+            if (ACTION_BALANCE == action)
                 cout << "Balance for account is: " << balance() << endl;
-                return 0;
-            }
+            if (ACTION_SEND == action)
+                cout << send() << endl;
+            if (ACTION_HELP == action)
+                cout << help() << endl;
+            if (ACTION_STATE == action)
+                cout << state() << endl;
+
+            return 0;
+        } else {
+            logger.set_verbose(1).error("Required parameter 'token' not set");
         }
     }
 

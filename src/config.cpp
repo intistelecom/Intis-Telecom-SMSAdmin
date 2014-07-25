@@ -2,6 +2,7 @@
 #include <sstream>
 #include <exception>
 #include <typeinfo>
+#include "global.h"
 #include "config.h"
 #include "log.h"
 
@@ -15,8 +16,12 @@ string Config::help()
     ostringstream help;
     help << "Usage: smsadmin <action> [options] [params]" << endl
          << "Avalible actions:" << endl
-         << "  balance - shows balance for account by token" << endl << endl
-         << general;
+         << "  balance - shows balance for account by token" << endl
+         << "  send    - sends sms" << endl
+         << "  state   - get sms delivery state" << endl
+         << endl
+         << general << endl
+         << send;
 
     return help.str();
 }
@@ -76,7 +81,10 @@ void Config::parse_cmd_params(int ac, char** av)
     logger.set_package(opkg);
 }
 
-Config::Config(): general("Global options"), is_error(false)
+Config::Config():
+    general("Global options"),
+    send("Send sms options"),
+    is_error(false)
 {
     log::Log &logger = log::Log::get_instance();
     string opkg(logger.set_package("config"));
@@ -86,15 +94,26 @@ Config::Config(): general("Global options"), is_error(false)
             ("verbose,v", po::value<int>()->implicit_value(1)->default_value(0), "Verbose output. Dumps log in console")
             ("help,h", "Produce this help")
             ("token,t", po::value<string>(), "Token for requested account. See your provider help to choose token")
+            ("log,l", po::value<string>()->default_value(SMSADMIN_DEFAULT_LOG_FILE), "Log file name")
+            ("conf,c", po::value<string>()->default_value(SMSADMIN_DEFAULT_CONF_FILE), "Configuration file")
+            ("ignore-log", po::value<int>()->implicit_value(1)->default_value(0), "Ignore file log")
+            ;
+
+        send.add_options()
+            ("originator,o", po::value<string>(), "Sender name")
+            ("text,x", po::value<string>(), "Text sms")
+            ("date,d", po::value<string>(), "Send date. If not set, sms will be send immediately")
+            ("sms-tpl,m", po::value<string>(), "Config template. Use with -c option")
             ;
 
         hidden.add_options()
             ("action", po::value<string>()->default_value("help"), "Action to execute")
+            ("params", po::value< vector<string> >(), "Explicit command line params")
             ;
 
-        numeric.add("action", 1);
+        numeric.add("action", 1).add("params", -1);
 
-        all.add(general).add(hidden);
+        all.add(general).add(send).add(hidden);
     } catch (exception &e) {
         logger.error("Catch exeption on config init: %s, %s", typeid(e).name(), e.what());
     }
