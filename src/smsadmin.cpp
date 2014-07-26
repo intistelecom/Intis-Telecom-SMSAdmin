@@ -40,8 +40,10 @@ string balance()
 
     string xml = req.add(b).render(); /// add(b) is require to get result
     string answer;
+    string url(conf["balance-url"].as<string>());
+
     logger.debug(xml);
-    CURLcode result = send_xml_request(sx::BALANCE_URL, xml);
+    CURLcode result = send_xml_request(url, xml);
 
     if (CURLE_OK == result) {
         xml.clear();
@@ -56,12 +58,14 @@ string balance()
                         b->get_money().c_str(),
                         b->get_currency().c_str()
             );
-            answer = b->get_money() + " " + b->get_currency();
+            answer  = "Balance for account is: ";
+            answer += b->get_money() + " " + b->get_currency();
         } catch (exception &e) {
             logger.error("Catch error on parse: %s", e.what());
             answer.append(e.what());
         }
     } else {
+        answer.append(error_buffer);
         logger.error("Network error: %s", error_buffer);
     }
 
