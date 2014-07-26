@@ -95,7 +95,7 @@ void Config::parse_config_file(const string &file_name)
         po::notify(vm);
     } catch (exception &e) {
         is_error = true;
-        logger.error("Catch cofig file parser error: %s", e.what());
+        logger.error("Catch config file parser error: %s", e.what());
     }
 
     logger.set_package(opkg);
@@ -118,7 +118,8 @@ Config::Config():
             ("token,t", po::value<string>(), "Token for requested account. See your provider help to choose token")
             ("log,l", po::value<string>()->default_value(SMSADMIN_DEFAULT_LOG_FILE), "Log file name")
             ("conf,c", po::value<string>()->implicit_value(SMSADMIN_DEFAULT_CONF_FILE), "Configuration file")
-            ("ignore-log", po::value<int>()->implicit_value(1)->default_value(0), "Ignore file log")
+            ("ignore-log", "Ignore file log")
+            ("level", po::value<string>()->default_value(log::DEBUG.name), "Log level: debug, info, warn, error")
             ;
 
         send.add_options()
@@ -126,15 +127,15 @@ Config::Config():
             ("text,x", po::value<string>(), "Text sms")
             ("date,d", po::value<string>(), "Send date. If not set, sms will be send immediately")
             ("tpl,m", po::value<string>(), "Config template. Use with -c option")
-            ("sms-url", po::value<string>()->default_value(sms16xapi::SMS_URL), "Url for sending sms")
+            ("smsurl", po::value<string>()->default_value(sms16xapi::SMS_URL), "Url for sending sms")
             ;
 
         state.add_options()
-            ("state-url", po::value<string>()->default_value(sms16xapi::STATE_URL), "Url to get sent sms status")
+            ("stateurl", po::value<string>()->default_value(sms16xapi::STATE_URL), "Url to get sent sms status")
             ;
 
         balance.add_options()
-            ("balance-url", po::value<string>()->default_value(sms16xapi::BALANCE_URL), "Url to get account balance")
+            ("balanceurl", po::value<string>()->default_value(sms16xapi::BALANCE_URL), "Url to get account balance")
             ;
 
         hidden.add_options()
@@ -146,7 +147,7 @@ Config::Config():
 
         all.add(general).add(send).add(balance).add(state).add(hidden);
     } catch (exception &e) {
-        logger.error("Catch exeption on config init: %s, %s", typeid(e).name(), e.what());
+        logger.error("Catch exception on config init: %s, %s", typeid(e).name(), e.what());
     }
     logger.set_package(opkg);
 }

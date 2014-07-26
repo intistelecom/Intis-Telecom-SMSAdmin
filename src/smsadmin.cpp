@@ -40,7 +40,7 @@ string balance()
 
     string xml = req.add(b).render(); /// add(b) is require to get result
     string answer;
-    string url(conf["balance-url"].as<string>());
+    string url(conf["balanceurl"].as<string>());
 
     logger.debug(xml);
     CURLcode result = send_xml_request(url, xml);

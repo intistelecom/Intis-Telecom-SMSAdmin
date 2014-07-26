@@ -16,6 +16,8 @@
 #include <ctime>
 #include <vector>
 #include <cstdarg>
+#include <fstream>
+#include <map>
 
 namespace smsadmin {
 namespace log {
@@ -71,6 +73,9 @@ class Log
         Log& set_verbose(bool = true);
         Log& set_inited (bool = false);
         Log& set_level  (const Level& = DEBUG);
+        Log& set_level  (const std::string&);
+        Log& set_file   (const std::string&);
+        Log& set_ignore_log (bool);
 
         /**
          * Set command option to Entity
@@ -79,12 +84,25 @@ class Log
          */
         std::string set_package(const std::string&);
 
+        /**
+         * Check if log has opened file
+         */
+        bool is_open();
+
+        /**
+         * Check if log file is ignore by option 'ignore_log'
+         */
+        bool is_log_ignore();
+
     protected:
         bool inited;                 /// Set to true on inited config. Until use buffer to push log
         std::vector<Entity*> buffer; /// Use this buffer to store log entities, before init config
         bool verbose;                /// Dublicate log to console, std::cout
         int  level;                  /// Log level to filter entries
+        std::ofstream file;          /// File stream for write log
         std::string package;
+        bool ignore_log;             /// Ignore write to file log
+        std::map<std::string, Level> level_map; /// Map for string usage
 
         void _write(Entity*, const std::string&, va_list&);
         void _write(Entity*);
