@@ -2,9 +2,7 @@
 #include <sstream>
 #include <exception>
 #include <typeinfo>
-#include "global.h"
-#include "config.h"
-#include "log.h"
+#include "smsadmin.h"
 
 namespace smsadmin {
 namespace config {
@@ -20,8 +18,14 @@ string Config::help()
          << "  send    - sends sms" << endl
          << "  state   - get sms delivery state" << endl
          << endl
-         << general << endl
-         << send;
+         << general
+         << endl
+         << send
+         << endl
+         << state
+         << endl
+         << balance
+         ;
 
     return help.str();
 }
@@ -50,7 +54,6 @@ bool Config::has_error()
 
 void Config::parse_cmd_params(int ac, char** av)
 {
-    Config &data = Config::get_instance();
     log::Log &logger = log::Log::get_instance();
     string opkg(logger.set_package("config"));
     vector<string> to_pass_further;
@@ -81,9 +84,28 @@ void Config::parse_cmd_params(int ac, char** av)
     logger.set_package(opkg);
 }
 
+void Config::parse_config_file(const string &file_name)
+{
+    log::Log &logger = log::Log::get_instance();
+    string opkg(logger.set_package("config"));
+
+    try {
+        po::parsed_options parsed = po::parse_config_file<char>(file_name.c_str(), all, true);
+        po::store(parsed, vm);
+        po::notify(vm);
+    } catch (exception &e) {
+        is_error = true;
+        logger.error("Catch cofig file parser error: %s", e.what());
+    }
+
+    logger.set_package(opkg);
+}
+
 Config::Config():
     general("Global options"),
-    send("Send sms options"),
+    send("Send action options"),
+    state("State action options"),
+    balance("Balance action options"),
     is_error(false)
 {
     log::Log &logger = log::Log::get_instance();
@@ -95,7 +117,7 @@ Config::Config():
             ("help,h", "Produce this help")
             ("token,t", po::value<string>(), "Token for requested account. See your provider help to choose token")
             ("log,l", po::value<string>()->default_value(SMSADMIN_DEFAULT_LOG_FILE), "Log file name")
-            ("conf,c", po::value<string>()->default_value(SMSADMIN_DEFAULT_CONF_FILE), "Configuration file")
+            ("conf,c", po::value<string>()->implicit_value(SMSADMIN_DEFAULT_CONF_FILE), "Configuration file")
             ("ignore-log", po::value<int>()->implicit_value(1)->default_value(0), "Ignore file log")
             ;
 
@@ -103,17 +125,26 @@ Config::Config():
             ("originator,o", po::value<string>(), "Sender name")
             ("text,x", po::value<string>(), "Text sms")
             ("date,d", po::value<string>(), "Send date. If not set, sms will be send immediately")
-            ("sms-tpl,m", po::value<string>(), "Config template. Use with -c option")
+            ("tpl,m", po::value<string>(), "Config template. Use with -c option")
+            ("sms-url", po::value<string>()->default_value(sms16xapi::SMS_URL), "Url for sending sms")
+            ;
+
+        state.add_options()
+            ("state-url", po::value<string>()->default_value(sms16xapi::STATE_URL), "Url to get sent sms status")
+            ;
+
+        balance.add_options()
+            ("balance-url", po::value<string>()->default_value(sms16xapi::BALANCE_URL), "Url to get account balance")
             ;
 
         hidden.add_options()
-            ("action", po::value<string>()->default_value("help"), "Action to execute")
+            ("action", po::value<string>()->default_value(ACTION_HELP), "Action to execute")
             ("params", po::value< vector<string> >(), "Explicit command line params")
             ;
 
         numeric.add("action", 1).add("params", -1);
 
-        all.add(general).add(send).add(hidden);
+        all.add(general).add(send).add(balance).add(state).add(hidden);
     } catch (exception &e) {
         logger.error("Catch exeption on config init: %s, %s", typeid(e).name(), e.what());
     }

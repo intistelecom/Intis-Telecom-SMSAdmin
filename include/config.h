@@ -31,16 +31,28 @@ class Config
         static Config& get_instance();
 
         void parse_cmd_params(int, char**);
+
+        /**
+         * Parse configuration file
+         */
+        void parse_config_file(const std::string&);
+
         const po::variable_value& get(const std::string&);
+
         const po::variable_value& operator[](const std::string&);
+
         const po::variables_map&  operator()();
+
         std::string help();
+
         bool has_error();
 
     protected:
         po::options_description all,
                                 general,
                                 send,
+                                state,
+                                balance,
                                 hidden;
         po::positional_options_description numeric;
         po::variables_map vm;
