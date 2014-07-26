@@ -9,8 +9,11 @@ int main(int argc, char **argv)
     log::Log &logger     = log::Log::get_instance();       /// init logging system
     config::Config &conf = config::Config::get_instance(); /// init config system
 
-    logger.set_level(log::DEBUG)
-          .set_package("init");
+    logger
+        .set_level(log::DEBUG)
+        .set_package("init");
+
+    string action(ACTION_HELP);
 
     conf.parse_cmd_params(argc, argv);
 
@@ -18,20 +21,31 @@ int main(int argc, char **argv)
         conf.parse_config_file(conf["conf"].as<string>());
     }
 
-    int verbose = conf.has_error() ? 1 : conf["verbose"].as<int>();
-    int result  = conf.has_error();
+    if (conf().count("action")) {
+        action = conf["action"].as<string>();
+    }
+
+    if (ACTION_HELP == action) {
+        if (conf.has_error()) logger.set_verbose(1).set_inited(true).dump();
+        cout << help();
+        return 0;
+    }
+
+    logger
+        .set_level(conf["level"].as<string>())
+        .set_ignore_log(conf().count("ignore-log"))
+        .set_file(conf["log"].as<string>())
+        .set_inited(true);
+
+    int result  = conf.has_error() | !(logger.is_open() | logger.is_log_ignore());
+    int verbose = result ? 1 : conf["verbose"].as<int>();
 
     logger
         .set_verbose(verbose)
-        .set_inited(true)
         .dump();
 
-    if (conf().count("action") and !conf.has_error()) {
-        string action(conf["action"].as<string>());
-
-        if (ACTION_HELP == action) {
-            cout << help();
-        } else if (conf().count("token")) {
+    if (!result) {
+        if (conf().count("token")) {
             if (ACTION_BALANCE == action)
                 cout << balance() << endl;
             if (ACTION_SEND == action)
@@ -39,7 +53,7 @@ int main(int argc, char **argv)
             if (ACTION_STATE == action)
                 cout << state() << endl;
         } else {
-            logger.set_verbose(1).error("Required parameter 'token' not set");
+            logger.error("Required parameter '--token' not set");
             result = 1;
         }
     }

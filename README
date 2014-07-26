@@ -1,32 +1,3 @@
-LICENSE
-============
-
-This is a legal agreement between you and Alexander M. Artamonov ("Licensor") from
-whom you have licensed the software (the "Software"). By using the Software,
-you agree to be bound by the terms of this License. If you do not agree to
-the terms of this License, the Licensor is unwilling to license the Software to you.
-In such event, you may not use the Software, and you should promptly contact
-the Licensor for return instructions.
-
-Licensor grants to you a limited, non-exclusive, license to use Licensor's
-Software and accompanying documentation in accordance with the terms and
-conditions of this License.
-
-Your use of the Software is restricted as follows:
-    The Software shall be used on a single stand-alone computer or a single network
-    node from which node the Software cannot be accessed by another computer.
-
-    The Software cannot be deployed over the internet, intranet or any other network
-    without providing for proper licensing.
-
-    This License is not a sale. Title and copyrights to the Software and accompanying
-    documentation remain with Licensor or its suppliers or licensors.
-
-    You may not reverse engineer the Software or use all or parts of Software for self
-    development
-
-    You are bound by these restrictions and all others set in this License.
-
 REQUIREMENTS
 ============
 
@@ -36,7 +7,7 @@ Build tools:
 - make 3.81+     (tested GNU 3.81, 3.82)
 
 Shared libraries with headers:
-- boost-program-options 1.41+ (tested 1.41, 1.49)
+- boost-program-options 1.53+ (tested 1.53, 1.55)
 - tinyxml 2.6+                (tested 2.6.1, 2.6.2)
 - curl 7.19+                  (tested 7.25.0, 7.19.7)
 
@@ -45,7 +16,8 @@ INSTALL
 
 Instalation guide for CentOS 6.5
 Firt install requirements (libraries installs automatic):
-    yum install -y gcc-c++ cmake boost-devel curl-devel tinyxml-devel
+    yum install -y gcc-c++ cmake curl-devel tinyxml-devel
+Then you should install manually boost-1.53 or higher from http://www.boost.org/
 Untar package
     tar -zxf ./smsadmin-0.1.tar.gz
 Check build directory
@@ -58,12 +30,15 @@ For detailed instalation see ./build/install_manifest.txt
 
 CHANGE LOG
 ============
+version 1.0.0 "Subsistence Level"
+- #23 add configuration file
+- #17 add log file
 
 version 0.1.1 "Cold Start"
-- add build for shared library sms16xapi.so
-- add uninstall taget for project as execute of ./build/delete.me
+- #12 add build for shared library sms16xapi.so
+- #12 add uninstall taget for project as execute of ./build/delete.me
 
 version 0.1.0 "Cold Start"
-- process help information for a program (smsadmin --help)
-- checks balance for account by token (smsadmin balance -t <token>)
-- use verbose output to console (-v option)
+- #9  process help information for a program (smsadmin --help)
+- #11 checks balance for account by token (smsadmin balance -t <token>)
+- #8  use verbose output to console (-v option)
