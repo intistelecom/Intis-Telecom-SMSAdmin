@@ -44,7 +44,7 @@ std::string Entity::to_string()
             buffer,
             level->name.c_str(),
             cmd.c_str(),
-            desc.c_str()
+            str_replace("\n", "", desc).c_str()
         );
 }
 
@@ -85,6 +85,34 @@ std::string format(const char* fmt, va_list &vl)
     std::string ret(buffer);
     delete[] buffer;
     return ret;
+}
+
+std::string& str_replace(const std::string &search, const std::string &replace, std::string &subject)
+{
+    std::string buffer;
+
+    int sealeng = search.length();
+    int strleng = subject.length();
+
+    if (sealeng==0)
+        return subject;//no change
+
+    for(int i=0, j=0; i<strleng; j=0 )
+    {
+        while (i+j<strleng && j<sealeng && subject[i+j]==search[j])
+            j++;
+        if (j==sealeng)//found 'search'
+        {
+            buffer.append(replace);
+            i+=sealeng;
+        }
+        else
+        {
+            buffer.append( &subject[i++], 1);
+        }
+    }
+    subject = buffer;
+    return subject;
 }
 
 }}
