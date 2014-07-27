@@ -18,7 +18,7 @@ set(SMS16XAPI_SRC
     )
 
 add_library(${SMS16XAPI}
-            SHARED
+            ${SMSADMIN_MAKE_SCENARIO}
             ${SMS16XAPI_SRC}
             ${SMS16AXPI_HDR}
             )
