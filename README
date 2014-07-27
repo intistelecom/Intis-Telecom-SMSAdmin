@@ -39,6 +39,7 @@ CHANGE LOG
 version 1.0.0 "Subsistence Level"
 - #23 add configuration file
 - #17 add log file
+- #24 add static linking of boost, sms16xapi, libgcc, libstdc++ by default
 
 version 0.1.1 "Cold Start"
 - #12 add build for shared library sms16xapi.so
