@@ -28,6 +28,13 @@ if (NOT SMSADMIN_DEFAULT_LOG_FILE)
 set(SMSADMIN_DEFAULT_LOG_FILE "/var/log/smsadmin.log")
 endif()
 
+set(SMSADMIN_MAKE_SCENARIO, STATIC)
+if (SMSADMIN_MAKE_SHARED)
+    set(SMSADMIN_MAKE_SCENARIO SHARED)
+else()
+    set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+endif()
+
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif(NOT CMAKE_BUILD_TYPE)
