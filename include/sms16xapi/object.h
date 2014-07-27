@@ -4,9 +4,15 @@
 #include <vector>
 #include <string>
 
+class TiXmlElement;
+class TiXmlDocument;
+
 namespace sms16xapi {
 
 using namespace std;
+
+TiXmlElement* getElementByName(TiXmlDocument*, string const&);
+vector<TiXmlElement*>* getElementsByName(TiXmlDocument*, string const &);
 
 class Object
 {
@@ -23,10 +29,16 @@ class Request: public Object
         virtual void parse(const string&) = 0;
         virtual string render();
         Request& add(Object*);
+        const vector<Object*>& get_children() { return children; };
 
     protected:
         string _tags_before_children();
         string _tags_after_children();
+
+        /**
+         * Throws exceptions
+         */
+        TiXmlDocument* _check_incoming_xml(const string &);
 
         vector<Object*> children;
         string token;

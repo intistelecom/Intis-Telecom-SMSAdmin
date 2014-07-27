@@ -1,4 +1,5 @@
 #include <sstream>
+#include <map>
 #include <exception>
 #include <curl/curl.h>
 #include "smsadmin.h"
@@ -80,11 +81,93 @@ string send()
     string opkg(logger.set_package("send"));
 
     ostringstream out;
-    vector<string> params = conf["params"].as< vector<string> >();
-    out << "Send action" << endl;
+    bool good = true;
+    string token(conf["token"].as<string>());
+    string url(conf["smsurl"].as<string>());
+    string answer;
 
-    for(vector<string>::iterator p = params.begin(); p < params.end(); ++p) {
-        out << (*p) << endl;
+    if (!conf().count("params")) {
+        good = false;
+        answer = "Expected at least 1 phone numder";
+        out << answer << endl;
+        logger.error(answer);
+    }
+
+    if (!conf().count("text")) {
+        good = false;
+        answer = "Text should be set";
+        out << answer << endl;
+        logger.error(answer);
+    }
+
+    if (!conf().count("originator")) {
+        good = false;
+        answer = "Originator should be set";
+        out << answer << endl;
+        logger.error(answer);
+    }
+
+    if (good) {
+        vector<string> params = conf["params"].as< vector<string> >();
+        namespace sx = sms16xapi;
+        string xml;
+        sx::ReqSms request(token);
+        sx::Sms *message;
+        out << "Sending sms..." << endl;
+
+        for(vector<string>::iterator p = params.begin(); p < params.end(); ++p) {
+            message = (new sx::Sms())
+                ->set_originator(conf["originator"].as<string>())
+                ->set_text(conf["text"].as<string>())
+                ->set_recipient((*p))
+                ->set_date(conf["date"].as<string>())
+                ;
+            request.add(message);
+        }
+        message = NULL;
+        xml = request.render();
+        logger.debug(xml);
+        logger.info("Try send sms: originator '%s', text '%s', date '%s'",
+            conf["originator"].as<string>().c_str(),
+            conf["text"].as<string>().c_str(),
+            conf["date"].as<string>().c_str()
+        );
+
+        CURLcode result = send_xml_request(url, xml);
+
+        if (CURLE_OK == result) {
+            xml.clear();
+            xml.append(buffer);
+            buffer.clear();
+            logger.debug(xml);
+
+            try {
+                request.parse(xml);
+                vector<sx::Object*> items = request.get_children();
+                for (vector<sx::Object*>::iterator sms = items.begin(); sms < items.end(); ++sms) {
+                    message = dynamic_cast<sx::Sms*>((*sms));
+                    logger.info(
+                        "phone %s, id %s, parts %s, status '%s'",
+                        message->recipient.c_str(),
+                        message->get_operator_id().c_str(),
+                        message->get_parts().c_str(),
+                        message->get_operator_text().c_str()
+                    );
+                    out << "sms: "
+                        << message->recipient << ", "
+                        << message->get_operator_id() << ", "
+                        << message->get_parts() << ", "
+                        << message->get_operator_text()
+                        << endl;
+                }
+            } catch (exception &e) {
+                logger.error("Catch error on parse: %s", e.what());
+                out << e.what();
+            }
+        } else {
+            out << error_buffer;
+            logger.error("Network error: %s", error_buffer);
+        }
     }
 
     logger.set_package(opkg);
