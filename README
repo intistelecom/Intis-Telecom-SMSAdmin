@@ -2,7 +2,7 @@ REQUIREMENTS
 ============
 
 Build tools:
-- cmake 2.6+     (tested 2.8.8, 2.6.4)
+- cmake 2.8+     (tested 2.8.11, 2.8.12)
 - gcc-c++ 4.4.7+ (tested 4.4.7, 4.7.1)
 - make 3.81+     (tested GNU 3.81, 3.82)
 
@@ -17,13 +17,19 @@ INSTALL
 Instalation guide for CentOS 6.5
 Firt install requirements (libraries installs automatic):
     yum install -y gcc-c++ cmake curl-devel tinyxml-devel
+
 Then you should install manually boost-1.53 or higher from http://www.boost.org/
+And specify the optional boost path via cmake parameter cmake -DBOOST_ROOT=
+
+If your repository cmake version is lower then 2.8, you should compile 2.8 from source
+(http://www.cmake.org/cmake/resources/software.html)
+
 Untar package
-    tar -zxf ./smsadmin-0.1.tar.gz
+    tar -zxf ./smsadmin-1.0.0.tar.gz
 Check build directory
-    cd ./smsadmin-0.1/build/
+    cd ./smsadmin-1.0.0/build/
 Configure and make
-    cmake -DCMAKE_INSTALL_PREFIX=/usr/local/ ../
+    cmake ../ -DCMAKE_INSTALL_PREFIX=/usr/local/ -DBOOST_ROOT=/usr/local
     make
     make install
 For detailed instalation see ./build/install_manifest.txt
