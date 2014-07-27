@@ -18,6 +18,8 @@ const string BALANCE_URL = "https://xml.sms16.ru/xml/balance.php";
 const string SMS_URL     = "https://xml.sms16.ru/xml/index.php";
 const string STATE_URL   = "https://xml.sms16.ru/xml/state.php";
 
+const string DEFAULT_DATE = "now";
+
 /**
  * Message states
  */

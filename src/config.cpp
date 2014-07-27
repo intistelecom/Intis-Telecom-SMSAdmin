@@ -125,7 +125,7 @@ Config::Config():
         send.add_options()
             ("originator,o", po::value<string>(), "Sender name")
             ("text,x", po::value<string>(), "Text sms")
-            ("date,d", po::value<string>(), "Send date. If not set, sms will be send immediately")
+            ("date,d", po::value<string>()->default_value(sms16xapi::DEFAULT_DATE), "Send date. If not set, sms will be send immediately")
             ("tpl,m", po::value<string>(), "Config template. Use with -c option")
             ("smsurl", po::value<string>()->default_value(sms16xapi::SMS_URL), "Url for sending sms")
             ;
