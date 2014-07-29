@@ -21,7 +21,7 @@ int main(int argc, char **argv)
         conf.parse_config_file(conf["conf"].as<string>());
     }
 
-    if (conf().count("action")) {
+    if (conf().count("action") and !conf().count("help")) {
         action = conf["action"].as<string>();
     }
 
@@ -38,7 +38,7 @@ int main(int argc, char **argv)
         .set_inited(true);
 
     int result  = conf.has_error() | !(logger.is_open() | logger.is_log_ignore());
-    int verbose = result ? 1 : conf["verbose"].as<int>();
+    int verbose = result ? 1 : conf().count("verbose");
 
     logger
         .set_verbose(verbose)
@@ -51,7 +51,7 @@ int main(int argc, char **argv)
             if (ACTION_SEND == action)
                 cout << send() << endl;
             if (ACTION_STATE == action)
-                cout << state() << endl;
+                cout << state();
         } else {
             logger.error("Required parameter '--token' not set");
             result = 1;

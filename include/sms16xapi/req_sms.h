@@ -10,6 +10,7 @@
 
 #ifndef REQSMS_H
 #define REQSMS_H
+
 #include <sms16xapi/object.h>
 
 namespace sms16xapi

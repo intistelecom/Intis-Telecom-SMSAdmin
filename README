@@ -37,6 +37,8 @@ For detailed instalation see ./build/install_manifest.txt
 CHANGE LOG
 ============
 version 1.0.0 "Subsistence Level"
+- #21 check deliver status of sms by operator id using comand line parameters
+- #20 send sms with command line & global config parameters
 - #23 add configuration file
 - #17 add log file
 - #24 add static linking of boost, sms16xapi, libgcc, libstdc++ by default
