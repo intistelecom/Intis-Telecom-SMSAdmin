@@ -113,7 +113,6 @@ string send()
         string xml;
         sx::ReqSms request(token);
         sx::Sms *message;
-        out << "Sending sms..." << endl;
 
         for(vector<string>::iterator p = params.begin(); p < params.end(); ++p) {
             message = (new sx::Sms())
@@ -180,9 +179,74 @@ string state()
     log::Log &logger = log::Log::get_instance();
     string opkg(logger.set_package("state"));
 
+    ostringstream out;
+    bool good = true;
+    string token(conf["token"].as<string>());
+    string url(conf["stateurl"].as<string>());
+    string answer;
+
+    if (!conf().count("params")) {
+        good = false;
+        answer = "Expected at least 1 sms id";
+        out << answer << endl;
+        logger.error(answer);
+    }
+
+    if (good) {
+        vector<string> params = conf["params"].as< vector<string> >();
+        namespace sx = sms16xapi;
+        string xml;
+        sx::ReqStatus request(token);
+        sx::Status *sts;
+
+        for (vector<string>::iterator operator_id = params.begin(); operator_id < params.end(); ++operator_id) {
+            sts = (new sx::Status())
+                ->set_operator_id((*operator_id));
+            request.add(sts);
+        }
+        sts = NULL;
+        xml = request.render();
+        logger.debug(xml);
+
+        CURLcode result = send_xml_request(url, xml);
+
+        if (CURLE_OK == result) {
+            xml.clear();
+            xml.append(buffer);
+            buffer.clear();
+            logger.debug(xml);
+
+            try {
+                request.parse(xml);
+                vector<sx::Object*> items = request.get_children();
+                for (vector<sx::Object*>::iterator s = items.begin(); s < items.end(); ++s) {
+                    sts = dynamic_cast<sx::Status*>((*s));
+                    logger.info(
+                        "status '%s', id %s, time '%s', error %s",
+                        sts->get_status().c_str(),
+                        sts->get_operator_id().c_str(),
+                        sts->get_crt_time().c_str(),
+                        sts->get_operator_err().c_str()
+                    );
+                    out << "status: "
+                        << sts->get_status().c_str() << ", "
+                        << sts->get_operator_id().c_str() << ", "
+                        << sts->get_crt_time().c_str() << ", "
+                        << sts->get_operator_err().c_str()
+                        << endl;
+                }
+            } catch (exception &e) {
+                logger.error("Catch error on parse: %s", e.what());
+                out << e.what();
+            }
+        } else {
+            out << error_buffer;
+            logger.error("Network error: %s", error_buffer);
+        }
+    }
 
     logger.set_package(opkg);
-    return "Get sms sate action";
+    return out.str();
 }
 
 CURLcode send_xml_request(const string &url, const string &post)

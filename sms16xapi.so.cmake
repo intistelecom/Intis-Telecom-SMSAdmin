@@ -12,6 +12,8 @@ set(SMS16XAPI_HDR
     "./include/sms16xapi/req_balance.h"
     "./include/sms16xapi/sms.h"
     "./include/sms16xapi/req_sms.h"
+    "./include/sms16xapi/status.h"
+    "./include/sms16xapi/req_status.h"
     )
 set(SMS16XAPI_SRC
     "./src/sms16xapi/object.cpp"
@@ -19,6 +21,8 @@ set(SMS16XAPI_SRC
     "./src/sms16xapi/balance.cpp"
     "./src/sms16xapi/sms.cpp"
     "./src/sms16xapi/req_sms.cpp"
+    "./src/sms16xapi/status.cpp"
+    "./src/sms16xapi/req_status.cpp"
     )
 
 add_library(${SMS16XAPI}

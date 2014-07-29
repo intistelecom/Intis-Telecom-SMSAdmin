@@ -113,7 +113,7 @@ Config::Config():
     try
     {
         general.add_options()
-            ("verbose,v", po::value<int>()->implicit_value(1)->default_value(0), "Verbose output. Dumps log in console")
+            ("verbose,w", "Verbose output. Dumps log in console")
             ("help,h", "Produce this help")
             ("token,t", po::value<string>(), "Token for requested account. See your provider help to choose token")
             ("log,l", po::value<string>()->default_value(SMSADMIN_DEFAULT_LOG_FILE), "Log file name")
