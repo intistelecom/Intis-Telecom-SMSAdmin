@@ -32,11 +32,23 @@ class Config
     public:
         static Config& get_instance();
 
-        /** Join options of config by tpl
-        */
+        /**
+         * Join options of config by tpl
+         * @brief join_tpl
+         */
         void join_tpl(const std::string&);
 
+        /**
+         * Parse commans line options
+         * @brief parse_cmd_params
+         */
         void parse_cmd_params(int, char**);
+
+        /**
+         * Join config file params to main config
+         * @brief join_config_params
+         */
+        void join_config_params();
 
         /**
          * Parse configuration file
@@ -63,12 +75,22 @@ class Config
         po::positional_options_description numeric;
         po::variables_map vm;
         std::vector<std::string> conf_pass_future;
+        po::parsed_options *config_parsed;
 
         bool is_error;
 
+        /// Replace options in variables map
         template<class T>
         void replace(
                 std::map<std::string, po::variable_value> &vm,
+                const std::string &opt,
+                const T &val
+                );
+
+        /// Replace options in config_parsed
+        template<class T>
+        void replace(
+                po::parsed_options& options,
                 const std::string &opt,
                 const T &val
                 );
