@@ -71,7 +71,7 @@ string balance()
     }
 
     logger.set_package(opkg);
-    return answer;
+    return answer + "\n";
 }
 
 string send()

@@ -1,7 +1,7 @@
 #include <vector>
 #include <sstream>
 #include <exception>
-#include <typeinfo>
+#include <boost/regex.hpp>
 #include "smsadmin.h"
 
 namespace smsadmin {
@@ -61,6 +61,7 @@ void Config::parse_cmd_params(int ac, char** av)
     try
     {
         po::parsed_options parsed = po::command_line_parser(ac, av)
+                                    .style(po::command_line_style::unix_style)
                                     .options(all)
                                     .positional(numeric)
                                     .allow_unregistered()
@@ -91,6 +92,7 @@ void Config::parse_config_file(const string &file_name)
 
     try {
         po::parsed_options parsed = po::parse_config_file<char>(file_name.c_str(), all, true);
+        conf_pass_future = po::collect_unrecognized(parsed.options, po::exclude_positional);
         po::store(parsed, vm);
         po::notify(vm);
     } catch (exception &e) {
@@ -156,6 +158,66 @@ Config& Config::get_instance()
 {
     static Config instance;
     return instance;
+}
+
+void Config::join_tpl(const string &tpl)
+{
+    log::Log &logger = log::Log::get_instance();
+    string opkg(logger.set_package("config"));
+
+    ostringstream epr;
+    epr << "^" << tpl << "\\.(.+)";
+    boost::regex prefix (epr.str());
+    boost::match_results<string::const_iterator> what;
+    string valueT, nameT;
+    bool found = false;
+
+    try {
+        for (vector<string>::iterator op = conf_pass_future.begin();
+             op != conf_pass_future.end();
+             ++op)
+        {
+            if (boost::regex_match((*op), what, prefix))
+            {
+                found = true;
+                valueT = (*++op);
+                nameT = what[1];
+                replace(vm, nameT, valueT);
+            }
+        }
+    } catch (exception &e) {
+        logger.error("Catch error while parse tpl '%s', option '%s': %s",
+                     tpl.c_str(), nameT.c_str(), e.what());
+        is_error = true;
+        found = true;
+    }
+
+    if (!found) {
+        logger.warn("Config section '%s' does not exists in config file", tpl.c_str());
+    }
+    logger.set_package(opkg);
+}
+
+template<class T>
+void Config::replace(
+        std::map<std::string, po::variable_value> &vm,
+        const std::string &opt,
+        const T &val
+        )
+{
+    std::vector<T> value;
+    value.push_back(val);
+    const po::option_description &d = all.find(opt, false, false, false);
+    static std::set<std::string> parsed;
+
+    po::variable_value &v = vm[opt];
+    if (parsed.end() == parsed.find(opt))
+    {
+        parsed.insert(opt);
+        v = po::variable_value();
+    }
+
+    d.semantic()->parse(v.value(), value, false);
 }
 
 }}

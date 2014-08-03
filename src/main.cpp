@@ -19,6 +19,9 @@ int main(int argc, char **argv)
 
     if (conf().count("conf")) { /// Configuration file detected
         conf.parse_config_file(conf["conf"].as<string>());
+        if (conf().count("tpl")) { /// Tpl option detected, join to config
+            conf.join_tpl(conf["tpl"].as<string>());
+        }
     }
 
     if (conf().count("action") and !conf().count("help")) {
@@ -47,9 +50,9 @@ int main(int argc, char **argv)
     if (!result) {
         if (conf().count("token")) {
             if (ACTION_BALANCE == action)
-                cout << balance() << endl;
+                cout << balance();
             if (ACTION_SEND == action)
-                cout << send() << endl;
+                cout << send();
             if (ACTION_STATE == action)
                 cout << state();
         } else {
