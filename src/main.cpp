@@ -17,14 +17,15 @@ int main(int argc, char **argv)
 
     conf.parse_cmd_params(argc, argv);
 
-    if (conf().count("conf")) { /// Configuration file detected
+    if (conf().count("conf") and !conf.has_error()) { /// Configuration file detected
         conf.parse_config_file(conf["conf"].as<string>());
         if (conf().count("tpl")) { /// Tpl option detected, join to config
             conf.join_tpl(conf["tpl"].as<string>());
         }
+        conf.join_config_params();
     }
 
-    if (conf().count("action") and !conf().count("help")) {
+    if (conf().count("action") and !conf().count("help") and !conf.has_error()) {
         action = conf["action"].as<string>();
     }
 
@@ -56,7 +57,9 @@ int main(int argc, char **argv)
             if (ACTION_STATE == action)
                 cout << state();
         } else {
-            logger.error("Required parameter '--token' not set");
+            string answer("Required parameter '--token' not set");
+            cout << answer << endl;
+            logger.error(answer);
             result = 1;
         }
     }

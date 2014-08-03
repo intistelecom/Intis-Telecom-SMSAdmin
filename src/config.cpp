@@ -56,32 +56,20 @@ void Config::parse_cmd_params(int ac, char** av)
 {
     log::Log &logger = log::Log::get_instance();
     string opkg(logger.set_package("config"));
-    vector<string> to_pass_further;
 
     try
     {
         po::parsed_options parsed = po::command_line_parser(ac, av)
-                                    .style(po::command_line_style::unix_style)
                                     .options(all)
                                     .positional(numeric)
-                                    .allow_unregistered()
                                     .run();
-
-        to_pass_further = po::collect_unrecognized(parsed.options, po::exclude_positional);
         po::store(parsed, vm);
         po::notify(vm);
-
     } catch (exception &e) {
         is_error = true;
         logger.error("Catch cmd line parameters parser error: %s", e.what());
     }
 
-    if (!to_pass_further.empty()) {
-        for (vector<string>::iterator it = to_pass_further.begin();
-             it != to_pass_further.end();
-             ++it)
-            logger.warn("Detected unknown command line option: '%s'", (*it).c_str());
-    }
     logger.set_package(opkg);
 }
 
@@ -91,10 +79,10 @@ void Config::parse_config_file(const string &file_name)
     string opkg(logger.set_package("config"));
 
     try {
-        po::parsed_options parsed = po::parse_config_file<char>(file_name.c_str(), all, true);
-        conf_pass_future = po::collect_unrecognized(parsed.options, po::exclude_positional);
-        po::store(parsed, vm);
-        po::notify(vm);
+        config_parsed = new po::parsed_options(
+                    po::parse_config_file<char>(file_name.c_str(), all, true));
+        conf_pass_future = po::collect_unrecognized(
+                    (*config_parsed).options, po::exclude_positional);
     } catch (exception &e) {
         is_error = true;
         logger.error("Catch config file parser error: %s", e.what());
@@ -117,27 +105,33 @@ Config::Config():
         general.add_options()
             ("verbose,w", "Verbose output. Dumps log in console")
             ("help,h", "Produce this help")
-            ("token,t", po::value<string>(), "Token for requested account. See your provider help to choose token")
+            ("token,t", po::value<string>(),
+             "Token for requested account. See your provider help to choose token")
             ("log,l", po::value<string>()->default_value(SMSADMIN_DEFAULT_LOG_FILE), "Log file name")
-            ("conf,c", po::value<string>()->implicit_value(SMSADMIN_DEFAULT_CONF_FILE), "Configuration file")
+            ("conf,c", po::value<string>()->implicit_value(SMSADMIN_DEFAULT_CONF_FILE),
+             "Configuration file")
             ("ignore-log", "Ignore file log")
-            ("level", po::value<string>()->default_value(log::DEBUG.name), "Log level: debug, info, warn, error")
+            ("level", po::value<string>()->default_value(log::DEBUG.name),
+             "Log level: debug, info, warn, error")
             ;
 
         send.add_options()
             ("originator,o", po::value<string>(), "Sender name")
             ("text,x", po::value<string>(), "Text sms")
-            ("date,d", po::value<string>()->default_value(sms16xapi::DEFAULT_DATE), "Send date. If not set, sms will be send immediately")
+            ("date,d", po::value<string>()->default_value(sms16xapi::DEFAULT_DATE),
+             "Send date. If not set, sms will be send immediately")
             ("tpl,m", po::value<string>(), "Config template. Use with -c option")
             ("smsurl", po::value<string>()->default_value(sms16xapi::SMS_URL), "Url for sending sms")
             ;
 
         state.add_options()
-            ("stateurl", po::value<string>()->default_value(sms16xapi::STATE_URL), "Url to get sent sms status")
+            ("stateurl", po::value<string>()->default_value(sms16xapi::STATE_URL),
+             "Url to get sent sms status")
             ;
 
         balance.add_options()
-            ("balanceurl", po::value<string>()->default_value(sms16xapi::BALANCE_URL), "Url to get account balance")
+            ("balanceurl", po::value<string>()->default_value(sms16xapi::BALANCE_URL),
+             "Url to get account balance")
             ;
 
         hidden.add_options()
@@ -182,7 +176,7 @@ void Config::join_tpl(const string &tpl)
                 found = true;
                 valueT = (*++op);
                 nameT = what[1];
-                replace(vm, nameT, valueT);
+                replace((*config_parsed), nameT, valueT);
             }
         }
     } catch (exception &e) {
@@ -218,6 +212,62 @@ void Config::replace(
     }
 
     d.semantic()->parse(v.value(), value, false);
+}
+
+/**
+ * This is a logic to replace only config file options
+ * And command line options will be saved and used
+ */
+template<class T>
+void Config::replace(
+        po::parsed_options &options,
+        const std::string &opt,
+        const T &val
+        )
+{
+    static set<string> parsed; /// save option names to avoid double replace in one iteration
+    string option_name;
+    bool exists = false;
+
+    for (unsigned i = 0; i < options.options.size(); ++i)
+    {
+        option_name = options.options[i].string_key;
+        if (0 == option_name.compare(opt)) {
+            exists = true;
+            if (parsed.end() == parsed.find(opt)) {
+                parsed.insert(opt);
+                options.options[i].value.clear();
+            }
+            options.options[i].value.push_back(val);
+        }
+    }
+
+    if (!exists) {
+        parsed.insert(opt);
+        po::option new_option;
+        new_option.string_key = opt;
+        new_option.value.push_back(val);
+        new_option.original_tokens.push_back(opt);
+        options.options.push_back(new_option);
+    }
+}
+
+void Config::join_config_params()
+{
+    log::Log &logger = log::Log::get_instance();
+    string opkg(logger.set_package("config"));
+
+    if (NULL == config_parsed) return;
+
+    try {
+        po::store((*config_parsed), vm);
+        delete config_parsed;
+        po::notify(vm);
+    } catch (exception &e) {
+        logger.error("Catch error while config file parse: %s", e.what());
+        is_error = true;
+    }
+    logger.set_package(opkg);
 }
 
 }}
