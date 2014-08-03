@@ -14,6 +14,8 @@
 #define CONFIG_H
 
 #include <string>
+#include <vector>
+#include <set>
 #include <boost/program_options.hpp>
 
 namespace po = boost::program_options;
@@ -29,6 +31,10 @@ class Config
 {
     public:
         static Config& get_instance();
+
+        /** Join options of config by tpl
+        */
+        void join_tpl(const std::string&);
 
         void parse_cmd_params(int, char**);
 
@@ -56,8 +62,16 @@ class Config
                                 hidden;
         po::positional_options_description numeric;
         po::variables_map vm;
+        std::vector<std::string> conf_pass_future;
 
         bool is_error;
+
+        template<class T>
+        void replace(
+                std::map<std::string, po::variable_value> &vm,
+                const std::string &opt,
+                const T &val
+                );
 
     private:
         Config();

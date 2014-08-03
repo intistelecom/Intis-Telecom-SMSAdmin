@@ -14,4 +14,5 @@ build/*
 *.layout
 *.txt.user
 include/global.h
+smsadmin-1.*
 !delete.me
