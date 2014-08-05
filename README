@@ -37,11 +37,15 @@ For detailed instalation see ./build/install_manifest.txt
 CHANGE LOG
 ============
 version 1.0.0 "Subsistence Level"
+- #25 fix double param error
+- #26 add mask in help message for 'date 'option
+- #22 add config template logic
 - #21 check deliver status of sms by operator id using comand line parameters
 - #20 send sms with command line & global config parameters
 - #23 add configuration file
 - #17 add log file
 - #24 add static linking of boost, sms16xapi, libgcc, libstdc++ by default
+- #18 new line clear in log messages
 
 version 0.1.1 "Cold Start"
 - #12 add build for shared library sms16xapi.so
