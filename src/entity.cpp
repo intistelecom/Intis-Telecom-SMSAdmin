@@ -1,6 +1,8 @@
 #include <cstdio>
 #include <stdexcept>
+#include <boost/regex.hpp>
 #include "log.h"
+#include "security_purify.h"
 
 namespace smsadmin {
 namespace log {
@@ -38,14 +40,16 @@ std::string Entity::to_string()
 
     char buffer[25] = {'\0'};
     strftime(buffer, 25, ISO8601.c_str(), localtime(&rawtime));
-    return
-        format(
-            "%s | %s | %s | %s |",
-            buffer,
-            level->name.c_str(),
-            cmd.c_str(),
-            str_replace("\n", "", desc).c_str()
-        );
+    SecurityPurify &purifier = SecurityPurify::get_instance();
+    string data = format(
+                "%s | %s | %s | %s |",
+                buffer,
+                level->name.c_str(),
+                cmd.c_str(),
+                str_replace(desc).c_str()
+            );
+
+    return purifier.content(data).run().str();;
 }
 
 void Entity::_check_null_cmd()
@@ -87,32 +91,13 @@ std::string format(const char* fmt, va_list &vl)
     return ret;
 }
 
-std::string& str_replace(const std::string &search, const std::string &replace, std::string &subject)
+std::string str_replace(std::string &subject)
 {
-    std::string buffer;
-
-    int sealeng = search.length();
-    int strleng = subject.length();
-
-    if (sealeng==0)
-        return subject;//no change
-
-    for(int i=0, j=0; i<strleng; j=0 )
-    {
-        while (i+j<strleng && j<sealeng && subject[i+j]==search[j])
-            j++;
-        if (j==sealeng)//found 'search'
-        {
-            buffer.append(replace);
-            i+=sealeng;
-        }
-        else
-        {
-            buffer.append( &subject[i++], 1);
-        }
-    }
-    subject = buffer;
-    return subject;
+    std::string exp = "[\\r\\n]";
+    std::string rep = "";
+    boost::regex e(exp);
+    return
+            boost::regex_replace(subject, e, rep);
 }
 
 }}

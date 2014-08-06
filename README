@@ -37,6 +37,7 @@ For detailed instalation see ./build/install_manifest.txt
 CHANGE LOG
 ============
 version 1.0.0 "Subsistence Level"
+- #15 add purifier for token
 - #25 fix double param error
 - #26 add mask in help message for 'date 'option
 - #22 add config template logic

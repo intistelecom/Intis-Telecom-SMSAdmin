@@ -41,7 +41,7 @@ const Level ERROR = {4, "error"};
 /**
  * Implements replace string logic
  */
-std::string& str_replace(const std::string&, const std::string&, std::string&);
+std::string str_replace(std::string&);
 
 /**
  * Implements string formating as fprintf() or same

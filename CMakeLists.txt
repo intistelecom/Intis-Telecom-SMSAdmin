@@ -35,6 +35,12 @@ else()
     set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 endif()
 
+if (NOT SMSADMIN_SECURITY_PURIFY_DISABLE)
+    set(SMSADMIN_SECURITY_PURIFY 1)
+else()
+    set(SMSADMIN_SECURITY_PURIFY 0)
+endif()
+
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif(NOT CMAKE_BUILD_TYPE)
