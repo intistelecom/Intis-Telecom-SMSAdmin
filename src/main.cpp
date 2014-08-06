@@ -50,6 +50,9 @@ int main(int argc, char **argv)
 
     if (!result) {
         if (conf().count("token")) {
+            log::SecurityPurify::get_instance()
+                    .add(conf["token"].as<string>(), "********");
+
             if (ACTION_BALANCE == action)
                 cout << balance();
             if (ACTION_SEND == action)
