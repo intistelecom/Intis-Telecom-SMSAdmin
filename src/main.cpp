@@ -30,8 +30,11 @@ int main(int argc, char **argv)
     }
 
     if (ACTION_HELP == action) {
-        if (conf.has_error()) logger.set_verbose(1).set_inited(true).dump();
-        cout << help();
+        if (conf.has_error()) {
+            logger.set_verbose(1).set_inited(true).dump();
+        } else {
+            cout << help();
+        }
         return 0;
     }
 
@@ -61,8 +64,7 @@ int main(int argc, char **argv)
                 cout << state();
         } else {
             string answer("Required parameter '--token' not set");
-            cout << answer << endl;
-            logger.error(answer);
+            logger.set_verbose(1).error(answer);
             result = 1;
         }
     }
