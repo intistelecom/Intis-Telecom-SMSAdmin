@@ -4,6 +4,7 @@
 #include <fstream>
 #include <curl/curl.h>
 #include "smsadmin.h"
+#include "translation.h"
 
 namespace smsadmin {
 
@@ -13,9 +14,10 @@ string help()
 {
     ostringstream help;
     help << endl
-         << "Smsadmin version: " << SMSADMIN_VER_STRING << " \"" << SMSADMIN_VER_NAME << "\"" << endl
-         << "Sms16.ru API version: " << sms16xapi::API_VERSION << endl
-         << "Build date: " << SMSADMIN_BUILD_DATE << endl << endl
+         << tr("Smsadmin version: ") << SMSADMIN_VER_STRING << " \""
+         << SMSADMIN_VER_NAME << "\"" << endl
+         << tr("Sms16.ru API version: ") << sms16xapi::API_VERSION << endl
+         << tr("Build date: ") << SMSADMIN_BUILD_DATE << endl << endl
          << config::Config::get_instance().help()
          << endl
          ;
@@ -56,18 +58,18 @@ string balance()
 
         try {
             req.parse(xml); /// Sets attrs 'money', 'currency' for Balance *b
-            logger.info("Balance for account by token %s is: %s %s",
+            logger.info(tr("Balance for account by token %s is: %s %s"),
                         token.c_str(),
                         b->get_money().c_str(),
                         b->get_currency().c_str()
             );
-            answer  = "Balance for account is: ";
+            answer  = tr("Balance for account is: ");
             answer += b->get_money() + " " + b->get_currency() + "\n";
         } catch (exception &e) {
-            logger.set_verbose(1).error("Catch error on parse: %s", e.what());
+            logger.set_verbose(1).error(tr("Catch error on parse: %s"), e.what());
         }
     } else {  
-        logger.set_verbose(1).error("Network error: %s", error_buffer);
+        logger.set_verbose(1).error(tr("Network error: %s"), error_buffer);
     }
 
     logger.set_package(opkg);
@@ -89,7 +91,7 @@ string send()
 
     if (!conf().count("params")) {
         good = false;
-        answer = "Expected at least 1 phone numder";
+        answer = tr("Expected at least 1 phone numder");
         logger.set_verbose(1).error(answer);
     }
 
@@ -107,13 +109,13 @@ string send()
 
     if (text.empty()) {
         good = false;
-        answer = "Text should be set";
+        answer = tr("Text should be set");
         logger.set_verbose(1).error(answer);
     }
 
     if (!conf().count("originator")) {
         good = false;
-        answer = "Originator should be set";        
+        answer = tr("Originator should be set");
         logger.set_verbose(1).error(answer);
     }
 
@@ -136,7 +138,7 @@ string send()
         message = NULL;
         xml = request.render();
         logger.debug(xml);
-        logger.info("Try send sms: originator '%s', text '%s', date '%s'",
+        logger.info(tr("Try send sms: originator '%s', text '%s', date '%s'"),
             conf["originator"].as<string>().c_str(),
             text.c_str(),
             conf["date"].as<string>().c_str()
@@ -156,24 +158,24 @@ string send()
                 for (vector<sx::Object*>::iterator sms = items.begin(); sms < items.end(); ++sms) {
                     message = dynamic_cast<sx::Sms*>((*sms));
                     logger.info(
-                        "phone %s, id sms %s, parts %s, send status '%s'",
+                        tr("phone %s, id sms %s, parts %s, send status '%s'"),
                         message->recipient.c_str(),
                         message->get_operator_id().c_str(),
                         message->get_parts().c_str(),
                         message->get_operator_text().c_str()
                     );
-                    out << "sms. "
-                        << "phone: " << message->recipient << ", "
-                        << "id sms: " << message->get_operator_id() << ", "
-                        << "sms parts: " << message->get_parts() << ", "
-                        << "send status: " << message->get_operator_text()
+                    out << tr("sms. ")
+                        << tr("phone: ") << message->recipient << ", "
+                        << tr("id sms: ") << message->get_operator_id() << ", "
+                        << tr("sms parts: ") << message->get_parts() << ", "
+                        << tr("send status: ") << message->get_operator_text()
                         << endl;
                 }
             } catch (exception &e) {
-                logger.set_verbose(1).error("Catch error on parse: %s", e.what());
+                logger.set_verbose(1).error(tr("Catch error on parse: %s"), e.what());
             }
         } else {            
-            logger.set_verbose(1).error("Network error: %s", error_buffer);
+            logger.set_verbose(1).error(tr("Network error: %s"), error_buffer);
         }
     }
 
@@ -195,7 +197,7 @@ string state()
 
     if (!conf().count("params")) {
         good = false;
-        answer = "Expected at least 1 sms id";
+        answer = tr("Expected at least 1 sms id");
         logger.set_verbose(1).error(answer);
     }
 
@@ -230,26 +232,26 @@ string state()
                 for (vector<sx::Object*>::iterator s = items.begin(); s < items.end(); ++s) {
                     sts = dynamic_cast<sx::Status*>((*s));
                     logger.info(
-                        "status '%s', id %s, time '%s', error code %s",
+                        tr("status '%s', id %s, time '%s', error code %s"),
                         sts->get_status().c_str(),
                         sts->get_operator_id().c_str(),
                         sts->get_crt_time().c_str(),
                         sts->get_operator_err().c_str()
                     );
-                    out << "status. "
-                        << "sms state: "   << sts->get_status().c_str() << ", "
-                        << "sms id: "      << sts->get_operator_id().c_str() << ", "
-                        << "state time: "  << sts->get_crt_time().c_str() << ", "
-                        << "error code: "  << sts->get_operator_err().c_str()
+                    out << tr("status. ")
+                        << tr("sms state: ")   << sts->get_status().c_str() << ", "
+                        << tr("sms id: ")      << sts->get_operator_id().c_str() << ", "
+                        << tr("state time: ")  << sts->get_crt_time().c_str() << ", "
+                        << tr("error code: ")  << sts->get_operator_err().c_str()
                         << endl;
                 }
             } catch (exception &e) {
-                logger.error("Catch error on parse: %s", e.what());
+                logger.error(tr("Catch error on parse: %s"), e.what());
                 out << e.what();
             }
         } else {
             out << error_buffer;
-            logger.error("Network error: %s", error_buffer);
+            logger.error(tr("Network error: %s"), error_buffer);
         }
     }
 
@@ -299,11 +301,13 @@ string get_message_from_file(const string &name)
     ifstream file;
     file.open(name.c_str(), ios_base::out);
     if (!file.is_open()) {
-        throw runtime_error("Message file is not available: not found or has no read permissions");
+        throw runtime_error(tr("Message file is not available: not found or has no read permissions"));
     }
 
     out << file.rdbuf();
+    file.close();
     return out.str();
 }
+
 
 }

@@ -8,6 +8,7 @@ Build tools:
 
 Shared libraries with headers:
 - boost-program-options 1.53+ (tested 1.53, 1.55)
+- boost-regex 1.53+           (tested 1.55)
 - tinyxml 2.6+                (tested 2.6.1, 2.6.2)
 - curl 7.19+                  (tested 7.25.0, 7.19.7)
 
@@ -37,6 +38,7 @@ For detailed instalation see ./build/install_manifest.txt
 CHANGE LOG
 ============
 version 1.0.0 "Subsistence Level"
+- #19 use tr() for translation logic in future
 - #27 use text file content for sms text (--msgfile=)
 - #15 add purifier for token
 - #25 fix double param error
