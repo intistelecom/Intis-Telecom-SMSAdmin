@@ -1,8 +1,10 @@
 #include <vector>
 #include <sstream>
 #include <exception>
+#include <typeinfo>
 #include <boost/regex.hpp>
 #include "smsadmin.h"
+#include "translation.h"
 
 namespace smsadmin {
 namespace config {
@@ -12,11 +14,11 @@ using namespace std;
 string Config::help()
 {
     ostringstream help;
-    help << "Usage: smsadmin <action> [options] [params]" << endl
-         << "Avalible actions:" << endl
-         << "  balance - shows balance for account by token" << endl
-         << "  send    - sends sms" << endl
-         << "  state   - get sms delivery state" << endl
+    help << tr("Usage: smsadmin <action> [options] [params]") << endl
+         << tr("Avalible actions:") << endl
+         << tr("  balance - shows balance for account by token") << endl
+         << tr("  send    - sends sms") << endl
+         << tr("  state   - get sms delivery state") << endl
          << endl
          << general
          << endl
@@ -67,7 +69,7 @@ void Config::parse_cmd_params(int ac, char** av)
         po::notify(vm);
     } catch (exception &e) {
         is_error = true;
-        logger.error("Catch cmd line parameters parser error: %s", e.what());
+        logger.error(tr("Catch cmd line parameters parser error: %s"), e.what());
     }
 
     logger.set_package(opkg);
@@ -85,17 +87,17 @@ void Config::parse_config_file(const string &file_name)
                     (*config_parsed).options, po::exclude_positional);
     } catch (exception &e) {
         is_error = true;
-        logger.error("Catch config file parser error: %s", e.what());
+        logger.error(tr("Catch config file parser error: %s"), e.what());
     }
 
     logger.set_package(opkg);
 }
 
 Config::Config():
-    general("Global options"),
-    send("Send action options"),
-    state("State action options"),
-    balance("Balance action options"),
+    general(tr("Global options")),
+    send(tr("Send action options")),
+    state(tr("State action options")),
+    balance(tr("Balance action options")),
     is_error(false)
 {
     log::Log &logger = log::Log::get_instance();
@@ -103,49 +105,50 @@ Config::Config():
     try
     {
         general.add_options()
-            ("verbose,w", "Verbose output. Dumps log in console")
-            ("help,h", "Produce this help")
+            ("verbose,w", tr("Verbose output. Dumps log in console"))
+            ("help,h", tr("Produce this help"))
             ("token,t", po::value<string>(),
-             "Token for requested account. See your provider help to choose token")
-            ("log,l", po::value<string>()->default_value(SMSADMIN_DEFAULT_LOG_FILE), "Log file name")
+             tr("Token for requested account. See your provider help to choose token"))
+            ("log,l", po::value<string>()->default_value(SMSADMIN_DEFAULT_LOG_FILE), tr("Log file name"))
             ("conf,c", po::value<string>()->implicit_value(SMSADMIN_DEFAULT_CONF_FILE),
-             "Configuration file")
-            ("ignore-log", "Ignore file log")
+             tr("Configuration file"))
+            ("ignore-log", tr("Ignore file log"))
             ("level", po::value<string>()->default_value(log::DEBUG.name),
-             "Log level: debug, info, warn, error")
+             tr("Log level: debug, info, warn, error"))
             ;
 
         send.add_options()
-            ("originator,o", po::value<string>(), "Sender name")
-            ("text,x", po::value<string>(), "Text sms")            
+            ("originator,o", po::value<string>(), tr("Sender name"))
+            ("text,x", po::value<string>(), tr("Text sms"))
             ("date,d", po::value<string>()->default_value(sms16xapi::DEFAULT_DATE)
-                                          ->value_name("\"yyyy-mm-dd hh:mm:ss\""),
-             "Send date. If not set, sms will be send immediately. NOTE: use qoutes for value")
-            ("tpl,m", po::value<string>(), "Config template. Use with -c option")
-            ("smsurl", po::value<string>()->default_value(sms16xapi::SMS_URL), "Url for sending sms")
-            ("msgfile", po::value<string>(), "(Testing) Text sms from file. Option 'text' will be ignore.")
+                                          ->value_name(tr("\"yyyy-mm-dd hh:mm:ss\"")),
+             tr("Send date. If not set, sms will be send immediately. NOTE: use qoutes for value"))
+            ("tpl,m", po::value<string>(), tr("Config template. Use with -c option"))
+            ("smsurl", po::value<string>()->default_value(sms16xapi::SMS_URL), tr("Url for sending sms"))
+            ("msgfile", po::value<string>(),
+             tr("(Testing) Text sms from file. Option 'text' will be ignore."))
             ;
 
         state.add_options()
             ("stateurl", po::value<string>()->default_value(sms16xapi::STATE_URL),
-             "Url to get sent sms status")
+             tr("Url to get sent sms status"))
             ;
 
         balance.add_options()
             ("balanceurl", po::value<string>()->default_value(sms16xapi::BALANCE_URL),
-             "Url to get account balance")
+             tr("Url to get account balance"))
             ;
 
         hidden.add_options()
-            ("action", po::value<string>()->default_value(ACTION_HELP), "Action to execute")
-            ("params", po::value< vector<string> >(), "Explicit command line params")
+            ("action", po::value<string>()->default_value(ACTION_HELP), tr("Action to execute"))
+            ("params", po::value< vector<string> >(), tr("Explicit command line params"))
             ;
 
         numeric.add("action", 1).add("params", -1);
 
         all.add(general).add(send).add(balance).add(state).add(hidden);
     } catch (exception &e) {
-        logger.error("Catch exception on config init: %s, %s", typeid(e).name(), e.what());
+        logger.error(tr("Catch exception on config init: %s, %s"), typeid(e).name(), e.what());
     }
     logger.set_package(opkg);
 }
@@ -182,14 +185,14 @@ void Config::join_tpl(const string &tpl)
             }
         }
     } catch (exception &e) {
-        logger.error("Catch error while parse tpl '%s', option '%s': %s",
+        logger.error(tr("Catch error while parse tpl '%s', option '%s': %s"),
                      tpl.c_str(), nameT.c_str(), e.what());
         is_error = true;
         found = true;
     }
 
     if (!found) {
-        logger.warn("Config section '%s' does not exists in config file", tpl.c_str());
+        logger.warn(tr("Config section '%s' does not exists in config file"), tpl.c_str());
     }
     logger.set_package(opkg);
 }
@@ -266,7 +269,7 @@ void Config::join_config_params()
         delete config_parsed;
         po::notify(vm);
     } catch (exception &e) {
-        logger.error("Catch error while config file parse: %s", e.what());
+        logger.error(tr("Catch error while config file parse: %s"), e.what());
         is_error = true;
     }
     logger.set_package(opkg);

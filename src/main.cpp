@@ -1,4 +1,5 @@
 #include <iostream>
+#include "translation.h"
 #include "smsadmin.h"
 
 using namespace std;
@@ -63,7 +64,7 @@ int main(int argc, char **argv)
             if (ACTION_STATE == action)
                 cout << state();
         } else {
-            string answer("Required parameter '--token' not set");
+            string answer(tr("Required parameter '--token' not set"));
             logger.set_verbose(1).error(answer);
             result = 1;
         }

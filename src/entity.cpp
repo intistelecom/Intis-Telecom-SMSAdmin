@@ -1,8 +1,10 @@
 #include <cstdio>
 #include <stdexcept>
 #include <boost/regex.hpp>
+#include <boost/format.hpp>
 #include "log.h"
 #include "security_purify.h"
+#include "translation.h"
 
 namespace smsadmin {
 namespace log {
@@ -55,13 +57,13 @@ std::string Entity::to_string()
 void Entity::_check_null_cmd()
 {
     if (cmd.empty())
-        throw std::invalid_argument("Requered command parameter not set");
+        throw std::invalid_argument(tr("Requered command parameter not set"));
 }
 
 void Entity::_check_null_desc()
 {
     if (desc.empty())
-        throw std::invalid_argument("Requered description parameter not set");
+        throw std::invalid_argument(tr("Requered description parameter not set"));
 }
 
 std::string format(const char* fmt, ...)
@@ -75,20 +77,18 @@ std::string format(const char* fmt, ...)
 
 std::string format(const char* fmt, va_list &vl)
 {
-    int size = 1024;
-    char* buffer = 0;
-    buffer = new char[size];
-    int nsize = vsnprintf(buffer, size, fmt, vl);
-    if(size<=nsize) /// fail delete buffer and try again
-    {
-        delete[] buffer;
-        buffer = 0;
-        buffer = new char[nsize+1]; //+1 for /0
-        nsize = vsnprintf(buffer, size, fmt, vl);
-    }
-    std::string ret(buffer);
-    delete[] buffer;
-    return ret;
+    boost::format formater(fmt);
+
+    bool end = false;
+    do {
+        try {
+            formater % va_arg(vl, char*);
+        } catch (boost::exception &e) {
+            end = true;
+        }
+    } while (!end);
+
+    return formater.str();
 }
 
 std::string str_replace(std::string &subject)

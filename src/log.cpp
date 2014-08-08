@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include <iostream>
 #include "log.h"
+#include "translation.h"
 
 namespace smsadmin {
 namespace log {
@@ -60,7 +61,7 @@ Log& Log::warn (const std::string &str, ...)
 Log& Log::dump()
 {
     if (!inited)
-        throw std::runtime_error("Storage is not initialized yet");
+        throw std::runtime_error(tr("Storage is not initialized yet"));
 
     for (unsigned i=0; i<buffer.size(); i++)
     {
@@ -108,7 +109,8 @@ Log& Log::set_file (const std::string &file_name)
     if (!ignore_log) {
         file.open(file_name.c_str(), std::ofstream::app);
         if (!file.is_open()) {
-            error("Log file %s is not available: not found or has no write permissions", file_name.c_str());
+            error(tr("Log file %s is not available: not found or has no write permissions"),
+                  file_name.c_str());
         }
     }
     return *(this);
