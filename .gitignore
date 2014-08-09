@@ -14,5 +14,5 @@ build/*
 *.layout
 *.txt.user
 include/global.h
-smsadmin-1.*
+.qtproject/*
 !delete.me
