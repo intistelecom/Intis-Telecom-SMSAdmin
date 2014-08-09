@@ -1,0 +1,33 @@
+##
+# This is an example of config file
+# 
+# NOTE: In config file options are set by long names without first dashes
+# 
+# NOTE: Command line options allways has main priority. And never be overwritten
+# by config file
+#
+# Options without sections are global options. Section options overwrite them
+# 
+# 'params' is a name of the explicit option, that the same as unnamed command line
+# parameters: phones, sms ids.
+#
+
+token      = 587d68b3aa1d80065a5b923f348b33fe688d8437
+action     = balance
+originator = Info
+log        = ./smsadmin.log
+
+smsurl     = https://xml.sms16.ru/xml/index.php
+stateurl   = https://xml.sms16.ru/xml/state.php
+balanceurl = https://xml.sms16.ru/xml/balance.php
+
+[sms1]
+originator = Sms1Test
+text   = Send some message
+params = 79046650055 
+params = 79056687711
+
+[some_cfn_section]
+action = state
+params = 4075204902457125200002
+params = 4075204902457130390009
