@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>Параметры командной строки</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style>
+body { font:80% Verdana,Tahoma,Arial,sans-serif; }
+h1, h2, h3, h4 {  font-family: "Trebuchet MS",Georgia,"Times New Roman",serif; }
+ul.toc { padding: 4px; margin-left: 0; }
+ul.toc li { list-style-type:none; }
+ul.toc li.heading2 { margin-left: 1em; }
+ul.toc li.heading3 { margin-left: 2em; }
+a.wiki-anchor { display: none; margin-left: 6px; text-decoration: none; }
+a.wiki-anchor:hover { color: #aaa !important; text-decoration: none; }
+h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display: inline; color: #ddd; }
+</style>
+</head>
+<body>
+<a name="Параметры-командной-строки"></a>
+<h1 >Параметры командной строки<a href="#Параметры-командной-строки" class="wiki-anchor">&para;</a></h1>
+
+
+	<p>Использование программы с параметрами из командной строки</p>
+
+
+	<p><strong><code>smsadmin &lt;action&gt; [options] [params]</code></strong></p>
+
+
+	<p>где<br />action - имя сценария<br />options - именованные параметры сценария<br />params - параметры сценария без имени, например, номера телефонов</p>
+
+
+	<a name="Перечень-сценариев-action"></a>
+<h2 >Перечень сценариев action<a href="#Перечень-сценариев-action" class="wiki-anchor">&para;</a></h2>
+
+
+	<table>
+		<tr>
+			<td>Имя сценария</td>
+			<td>Описание сценария</td>
+			<td>Версия</td>
+		</tr>
+		<tr>
+			<td>balance</td>
+			<td>Получение значение баланса аккаунта</td>
+			<td><a href="/versions/2" class="version">0.1.0</a></td>
+		</tr>
+		<tr>
+			<td>send</td>
+			<td>Отправка смс</td>
+			<td><a href="/versions/3" class="version">1.0.0</a></td>
+		</tr>
+		<tr>
+			<td>state</td>
+			<td>Получение статуса отправленной смс</td>
+			<td><a href="/versions/3" class="version">1.0.0</a></td>
+		</tr>
+	</table>
+
+
+
+
+	<a name="Параметры-сценариев"></a>
+<h2 >Параметры сценариев<a href="#Параметры-сценариев" class="wiki-anchor">&para;</a></h2>
+
+
+	<a name="Глобальные-именованные-параметры"></a>
+<h3 >Глобальные именованные параметры<a href="#Глобальные-именованные-параметры" class="wiki-anchor">&para;</a></h3>
+
+
+	<table>
+		<tr>
+			<td>Наименование параметра</td>
+			<td>Тип</td>
+			<td>Обязательный</td>
+			<td>Описание</td>
+			<td>Версия</td>
+			<td>Пример</td>
+		</tr>
+		<tr>
+			<td>-t, --token=</td>
+			<td>string</td>
+			<td>да</td>
+			<td>Токен авторизации на сервере отправки смс</td>
+			<td><a href="/versions/2" class="version">0.1.0</a></td>
+			<td>587d68b3aa1d80064a5b923f348b33fe688d8437</td>
+		</tr>
+		<tr>
+			<td>-h, --help</td>
+			<td>void</td>
+			<td>Нет</td>
+			<td>Запрос справки в консоль</td>
+			<td><a href="/versions/2" class="version">0.1.0</a></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>-w, --verbose</td>
+			<td>void</td>
+			<td>Нет</td>
+			<td>Вывод лога в консоль</td>
+			<td><a href="/versions/2" class="version">0.1.0</a></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>-с, --conf=</td>
+			<td>string</td>
+			<td>Нет</td>
+			<td>Файл конфигурации <a href="Запуск_программы_с_конфигурационным_файлом.html" class="wiki-page">Запуск программы с конфигурационным файлом</a></td>
+			<td><a href="/versions/3" class="version">1.0.0</a></td>
+			<td>/etc/smsadmin.cfn</td>
+		</tr>
+		<tr>
+			<td>-l, --log=</td>
+			<td>string</td>
+			<td>Нет</td>
+			<td>Файл лога <a href="Сохранение_лога_в_файл.html" class="wiki-page">Сохранение лога в файл</a></td>
+			<td><a href="/versions/3" class="version">1.0.0</a></td>
+			<td>/var/log/smsadmin.log</td>
+		</tr>
+		<tr>
+			<td>--ignore-log</td>
+			<td>void</td>
+			<td>Нет</td>
+			<td>Игнорирование попыток найти и открыть файл лога на запись. Весь созданный лог в текущем сценарии будет потерян. <a href="Сохранение_лога_в_файл.html" class="wiki-page">Сохранение лога в файл</a></td>
+			<td><a href="/versions/3" class="version">1.0.0</a></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>--level=</td>
+			<td>string(debug, error, warn, info)</td>
+			<td>Нет</td>
+			<td>Установка уровня лога. По-умолчанию debug</td>
+			<td><a href="/versions/3" class="version">1.0.0</a></td>
+			<td>info</td>
+		</tr>
+	</table>
+
+
+
+
+	<a name="Параметры-сценария-balance"></a>
+<h3 >Параметры сценария <strong>balance</strong><a href="#Параметры-сценария-balance" class="wiki-anchor">&para;</a></h3>
+
+
+	<p><strong><code>./smsadmin balance -t &lt;token&gt; [--balance-url=&lt;url&gt;]</code></strong></p>
+
+
+	<table>
+		<tr>
+			<td>Наименование параметра</td>
+			<td>Тип</td>
+			<td>Обязательный</td>
+			<td>Описание</td>
+			<td>Версия</td>
+			<td>Пример</td>
+		</tr>
+		<tr>
+			<td> --balanceurl=</td>
+			<td>string</td>
+			<td>нет</td>
+			<td>Адрес для отправки запросов. Если не указан используется прописаный в константах библиотеки</td>
+			<td><a href="/versions/3" class="version">1.0.0</a></td>
+			<td><a class="external" href="http://xml.sms16.ru/xml/balance.php">http://xml.sms16.ru/xml/balance.php</a></td>
+		</tr>
+	</table>
+
+
+
+
+	<a name="Параметры-сценария-send"></a>
+<h3 >Параметры сценария <strong>send</strong><a href="#Параметры-сценария-send" class="wiki-anchor">&para;</a></h3>
+
+
+	<p><strong><code>./smsadmin send -o &lt;originator&gt; -x &lt;text sms&gt; -d [send date] -t &lt;token&gt; &lt;phone 1&gt; [phone 2] ... [phone N]</code></strong></p>
+
+
+	<table>
+		<tr>
+			<td>Наименование параметра</td>
+			<td>Тип</td>
+			<td>Обязательный</td>
+			<td>Описание</td>
+			<td>Версия</td>
+			<td>Пример</td>
+		</tr>
+		<tr>
+			<td>-o, --originator=</td>
+			<td>string</td>
+			<td>да</td>
+			<td>Наименование отправителя</td>
+			<td><a href="/versions/3" class="version">1.0.0</a></td>
+			<td>info</td>
+		</tr>
+		<tr>
+			<td>-x, --text=</td>
+			<td>string</td>
+			<td>да</td>
+			<td>Текст отправляемого сообщения</td>
+			<td><a href="/versions/3" class="version">1.0.0</a></td>
+			<td>Проверка связи</td>
+		</tr>
+		<tr>
+			<td>-d, --date=</td>
+			<td>string</td>
+			<td>нет</td>
+			<td>Дата отправляемого сообщения. Если не указана, используется текущее время и смс отправляется немедленно</td>
+			<td><a href="/versions/3" class="version">1.0.0</a></td>
+			<td>2014-07-19 21:59:00</td>
+		</tr>
+		<tr>
+			<td> -m, --tpl=</td>
+			<td>string</td>
+			<td>нет, совместно с -c</td>
+			<td>Шаблон конфигурации для отправки смс <a href="Отправка_смс_по_предустановкам_из_конфигурации.html" class="wiki-page">Отправка смс по предустановкам из конфигурации</a></td>
+			<td><a href="/versions/3" class="version">1.0.0</a></td>
+			<td>sms1</td>
+		</tr>
+		<tr>
+			<td> --smsurl=</td>
+			<td>string</td>
+			<td>нет</td>
+			<td>Адрес для отправки запросов. Если не указан используется прописаный в константах библиотеки</td>
+			<td><a href="/versions/3" class="version">1.0.0</a></td>
+			<td><a class="external" href="http://xml.sms16.ru/xml/index.php">http://xml.sms16.ru/xml/index.php</a></td>
+		</tr>
+		<tr>
+			<td>--msgfile=</td>
+			<td>string</td>
+			<td>нет</td>
+			<td>Путь к файлу содержащему текст смс</td>
+			<td><a href="/versions/3" class="version">1.0.0</a></td>
+			<td>./tests/msg.txt</td>
+		</tr>
+		<tr>
+			<td>номера телефонов</td>
+			<td>string</td>
+			<td>да (хотя бы 1)</td>
+			<td>Номер(а) телефонов получателей через пробел</td>
+			<td><a href="/versions/3" class="version">1.0.0</a></td>
+			<td>79046630770</td>
+		</tr>
+	</table>
+
+
+
+
+	<a name="Параметры-сценария-state"></a>
+<h3 >Параметры сценария <strong>state</strong><a href="#Параметры-сценария-state" class="wiki-anchor">&para;</a></h3>
+
+
+	<p><strong><code>./smsadmin state &lt;smsid 1&gt; [smsid 2] ... [smsid N]</code></strong></p>
+
+
+	<table>
+		<tr>
+			<td>Наименование параметра</td>
+			<td>Тип</td>
+			<td>Обязательный</td>
+			<td>Описание</td>
+			<td>Версия</td>
+			<td>Пример</td>
+		</tr>
+		<tr>
+			<td> --stateurl=</td>
+			<td>string</td>
+			<td>нет</td>
+			<td>Адрес для отправки запросов. Если не указан используется прописаный в константах библиотеки</td>
+			<td><a href="/versions/3" class="version">1.0.0</a></td>
+			<td><a class="external" href="http://xml.sms16.ru/xml/state.php">http://xml.sms16.ru/xml/state.php</a></td>
+		</tr>
+		<tr>
+			<td>номера идентификаторов смс</td>
+			<td>string</td>
+			<td>да (хотя бы 1, если нет других параметров)</td>
+			<td>Идентификаторы статусов смс через пробел <a href="Получение_статуса_смс_по_идентификатору.html" class="wiki-page">Получение статуса смс по идентификатору</a></td>
+			<td><a href="/versions/3" class="version">1.0.0</a></td>
+			<td>987654322</td>
+		</tr>
+	</table>
+</body>
+</html>

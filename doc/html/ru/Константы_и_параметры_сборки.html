@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>Константы и параметры сборки</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style>
+body { font:80% Verdana,Tahoma,Arial,sans-serif; }
+h1, h2, h3, h4 {  font-family: "Trebuchet MS",Georgia,"Times New Roman",serif; }
+ul.toc { padding: 4px; margin-left: 0; }
+ul.toc li { list-style-type:none; }
+ul.toc li.heading2 { margin-left: 1em; }
+ul.toc li.heading3 { margin-left: 2em; }
+a.wiki-anchor { display: none; margin-left: 6px; text-decoration: none; }
+a.wiki-anchor:hover { color: #aaa !important; text-decoration: none; }
+h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display: inline; color: #ddd; }
+</style>
+</head>
+<body>
+<a name="Константы-и-параметры-сборки"></a>
+<h1 >Константы и параметры сборки<a href="#Константы-и-параметры-сборки" class="wiki-anchor">&para;</a></h1>
+
+
+	<p>Параметры сборки задаются при сборке и хранятся в файле include/global.h</p>
+
+
+	<a name="Параметры-сборки"></a>
+<h2 >Параметры сборки<a href="#Параметры-сборки" class="wiki-anchor">&para;</a></h2>
+
+
+	<table>
+		<tr>
+			<td>Имя параметра</td>
+			<td>Описание</td>
+			<td>Значение по-умолчанию</td>
+			<td>Редактируемый пользователем</td>
+			<td>Перезаписываемый в процессе выполнения сценария</td>
+			<td>Пример</td>
+		</tr>
+		<tr>
+			<td>SMSADMIN_BUILD_DATE</td>
+			<td>Дата сборки программы. Время в формате ISO8601</td>
+			<td>Определяется при сборке из системного времени</td>
+			<td>Нет</td>
+			<td>Нет</td>
+			<td>2014-07-01T14:01:45+0400</td>
+		</tr>
+		<tr>
+			<td>SMSADMIN_VER_STRING</td>
+			<td>Номер версии прораммы</td>
+			<td>major.minor.patch</td>
+			<td>Нет</td>
+			<td>Нет</td>
+			<td>0.1.1</td>
+		</tr>
+		<tr>
+			<td>SMSADMIN_VER_NAME</td>
+			<td>Имя версии программы</td>
+			<td>Определяется разработчиком</td>
+			<td>Нет</td>
+			<td>Нет</td>
+			<td>Cold Start</td>
+		</tr>
+		<tr>
+			<td>SMSADMIN_DEFAULT_CONF_FILE</td>
+			<td>Имя файла конфига по-умолчанию</td>
+			<td>/etc/smsadmin.cfn</td>
+			<td>Да</td>
+			<td>Да, Параметр командной строки -с</td>
+			<td>/etc/smsadmin.cfn</td>
+		</tr>
+		<tr>
+			<td>SMSADMIN_DEFAULT_LOG_FILE</td>
+			<td>Имя файла лога по-умолчанию</td>
+			<td>/var/log/smsadmin.log</td>
+			<td>Да</td>
+			<td>Да, Параметр командной сроки -l, Параметр файла конфигурации log</td>
+			<td>/var/log/smsadmin.log</td>
+		</tr>
+		<tr>
+			<td>SMSADMIN_MAKE_SHARED</td>
+			<td>Статически линковать библиотеки boost, sms16xapi, системные: libstdc++, libgcc</td>
+			<td>OFF</td>
+			<td>Да</td>
+			<td>Нет</td>
+			<td>cmake -DSMSADMIN_MAKE_SHARED=ON</td>
+		</tr>
+		<tr>
+			<td>SMSADMIN_SECURITY_PURIFY_DISABLE</td>
+			<td>Отключить скрытие аторизационных данных в логе</td>
+			<td>OFF</td>
+			<td>Да</td>
+			<td>Нет</td>
+			<td>cmake -DSMSADMIN_SECURITY_PURIFY_DISABLE=ON</td>
+		</tr>
+	</table>
+</body>
+</html>

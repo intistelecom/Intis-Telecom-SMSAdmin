@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>Конфигурационный файл</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style>
+body { font:80% Verdana,Tahoma,Arial,sans-serif; }
+h1, h2, h3, h4 {  font-family: "Trebuchet MS",Georgia,"Times New Roman",serif; }
+ul.toc { padding: 4px; margin-left: 0; }
+ul.toc li { list-style-type:none; }
+ul.toc li.heading2 { margin-left: 1em; }
+ul.toc li.heading3 { margin-left: 2em; }
+a.wiki-anchor { display: none; margin-left: 6px; text-decoration: none; }
+a.wiki-anchor:hover { color: #aaa !important; text-decoration: none; }
+h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display: inline; color: #ddd; }
+</style>
+</head>
+<body>
+<a name="Конфигурационный-файл"></a>
+<h1 >Конфигурационный файл<a href="#Конфигурационный-файл" class="wiki-anchor">&para;</a></h1>
+
+
+	<ol>
+	<li>Конфигурационный файл может определять все не заданные в командной строке параметры, кроме -c</li>
+		<li>Параметры в конфигурационном файле записываются по длинному наименованию параметра командной строки без ведущих дефисов</li>
+		<li>Причем параметры какой-либо секции (шаблона) перезаписывают параметры определенные без секции. Данное правило реализуется конкретным действием в зависимости от запрограммированных сценариев и может отличаться в версиях.</li>
+		<li>Параметр action может быть задан в конфигурационном файле только глобально</li>
+		<li>Параметр params предназначен для сбора всех неименованных параметров командной строки. Каждое действие программы обрабатывает эти параметры по запрограммированному смыслу. Например, для отправки смс, набор данных в params будет обрабатываться как номера телефонов.</li>
+	</ol>
+
+
+	<a name="Примеры-конфигурации"></a>
+<h2 >Примеры конфигурации<a href="#Примеры-конфигурации" class="wiki-anchor">&para;</a></h2>
+
+
+	<p><strong>test.cfn</strong><br /><pre>
+token      = 587d68b3aa1d80064a5b923f348b33fe688d8437
+action     = balance
+originator = Info
+tpl        = sms1
+verbose    = 1
+
+smsurl    = https://xml.sms16.ru/xml/index.php
+stateurl  = https://xml.sms16.ru/xml/state.php
+balanceurl= https://xml.sms16.ru/xml/balance.php
+
+[sms1]
+originator = Test2
+text   = Отправим парочку тестовых сообщений
+params = 79046630770
+params = 79046640077
+</pre></p>
+
+
+	<p>Результат: Запрошен баланс аккаунта<br /><pre>
+a2m@ny2i:~/Documents/P/tango+/smsadmin/build&gt; ./smsadmin -c ../tests/test.cfn -v0
+Balance for account is: 8580 RUR
+a2m@ny2i:~/Documents/P/tango+/smsadmin/build&gt; 
+</pre></p>
+</body>
+</html>

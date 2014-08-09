@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>Формат лога</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style>
+body { font:80% Verdana,Tahoma,Arial,sans-serif; }
+h1, h2, h3, h4 {  font-family: "Trebuchet MS",Georgia,"Times New Roman",serif; }
+ul.toc { padding: 4px; margin-left: 0; }
+ul.toc li { list-style-type:none; }
+ul.toc li.heading2 { margin-left: 1em; }
+ul.toc li.heading3 { margin-left: 2em; }
+a.wiki-anchor { display: none; margin-left: 6px; text-decoration: none; }
+a.wiki-anchor:hover { color: #aaa !important; text-decoration: none; }
+h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display: inline; color: #ddd; }
+</style>
+</head>
+<body>
+<a name="Формат-лога"></a>
+<h1 >Формат лога<a href="#Формат-лога" class="wiki-anchor">&para;</a></h1>
+
+
+	<p>Лог файл представлен ввиде файла с разделителями (csv, разделитель |). Каждая новая запись лога отделена от другой переносом строки (\n)</p>
+
+
+	<a name="Описание-формата-и-назначения-колонок"></a>
+<h2 >Описание формата и назначения колонок<a href="#Описание-формата-и-назначения-колонок" class="wiki-anchor">&para;</a></h2>
+
+
+	<table>
+		<tr>
+			<td>Назначение</td>
+			<td>Формат</td>
+			<td>Допустимые значения</td>
+		</tr>
+		<tr>
+			<td>Время</td>
+			<td>строка, ISO8601</td>
+			<td>Цифры, -, :, Т, +</td>
+		</tr>
+		<tr>
+			<td>Уровень лога</td>
+			<td>строка</td>
+			<td>debug, error, info, warn</td>
+		</tr>
+		<tr>
+			<td>Модуль программы</td>
+			<td>строка</td>
+			<td>Текст, имя модуля программы</td>
+		</tr>
+		<tr>
+			<td>Текст</td>
+			<td>строка</td>
+			<td>Любые текстовые символы, кроме переноса строки</td>
+		</tr>
+	</table>
+
+
+
+
+	<a name="Пример"></a>
+<h2 >Пример<a href="#Пример" class="wiki-anchor">&para;</a></h2>
+
+
+<pre>
+2014-07-22T08:46:17+0400 | debug | balance | &lt;?xml version="1.0" encoding="utf-8" ?&gt;&lt;request version="1.4"&gt;&lt;security&gt;&lt;token value="587d68********688d8437" /&gt;&lt;/security&gt;&lt;/request&gt; |         
+2014-07-22T08:46:18+0400 | debug | balance | &lt;?xml version="1.0" encoding="utf-8"?&gt;&lt;response&gt;&lt;money currency="RUR"&gt;8580&lt;/money&gt;&lt;sms area=" Russia Skylink"&gt;11440&lt;/sms&gt;&lt;sms area=" Russia Beeline"&gt;12257&lt;/sms&gt;&lt;sms area=" Russia MTC"&gt;14300&lt;/sms&gt;&lt;sms area=" Russia Megafon"&gt;12257&lt;/sms&gt;&lt;sms area=" Russia Smarts"&gt;28600&lt;/sms&gt;&lt;sms area=" Russia Baikalwestcom"&gt;17160&lt;/sms&gt;&lt;sms area=" Russia Rostelecom Utel"&gt;17160&lt;/sms&gt;&lt;sms area=" Russia Tele2"&gt;17160&lt;/sms&gt;&lt;sms area=" Russia Others"&gt;28600&lt;/sms&gt;&lt;sms area=" Russia Rostelecom ETK"&gt;17160&lt;/sms&gt;&lt;sms area=" Russia Rostelecom NCC"&gt;28600&lt;/sms&gt;&lt;sms area=" Russia Motiv"&gt;28600&lt;/sms&gt;&lt;sms area=" Russia Rostelecom Others"&gt;28600&lt;/sms&gt;&lt;/response&gt; |
+2014-07-22T08:46:18+0400 | info | balance | Balance for account by token 587d68b3********688d8437 is: 8580 RUR |
+</pre>
+</body>
+</html>
