@@ -41,7 +41,7 @@ const Level ERROR = {4, "error"};
 /**
  * Implements replace string logic
  */
-std::string str_replace(std::string&);
+std::string str_replace(const std::string&);
 
 /**
  * Implements string formating as fprintf() or same
@@ -49,6 +49,7 @@ std::string str_replace(std::string&);
  */
 std::string format(const char* fmt, ...);
 std::string format(const char* fmt, va_list&);
+std::string fix_persent(const char* subject);
 
 class Entity;
 

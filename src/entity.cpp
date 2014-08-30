@@ -1,7 +1,6 @@
 #include <cstdio>
 #include <stdexcept>
 #include <boost/regex.hpp>
-#include <boost/format.hpp>
 #include "log.h"
 #include "security_purify.h"
 #include "translation.h"
@@ -70,34 +69,43 @@ std::string format(const char* fmt, ...)
 {
     va_list vl;
     va_start(vl, fmt);
-    std::string frmd(format(fmt, vl));
+    std::string frmd = format(fmt, vl);
     va_end(vl);
     return frmd;
 }
 
 std::string format(const char* fmt, va_list &vl)
 {
-    boost::format formater(fmt);
+    int size = 1024;
+    int nsize;
+    char* buffer = NULL;
+    va_list args;
 
-    bool end = false;
-    do {
-        try {
-            formater % va_arg(vl, char*);
-        } catch (boost::exception &e) {
-            end = true;
+    while (1) {
+        va_copy(args, vl);
+        buffer = new char[size];
+        nsize = vsnprintf(buffer, size, fmt, args) +1;
+        if (nsize > size) { /// fail delete buffer and try again
+            size = nsize;
+            delete[] buffer;
+        } else {
+            break;
         }
-    } while (!end);
+    }
 
-    return formater.str();
+    std::string ret(buffer);
+    delete[] buffer;
+    return ret;
 }
 
-std::string str_replace(std::string &subject)
+std::string str_replace(const std::string &subject)
 {
     std::string exp = "[\\r\\n]";
     std::string rep = "";
+    std::string out;
     boost::regex e(exp);
-    return
-            boost::regex_replace(subject, e, rep);
+    out = boost::regex_replace(subject, e, rep);
+    return out;
 }
 
 }}
