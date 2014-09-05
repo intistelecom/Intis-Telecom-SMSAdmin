@@ -13,13 +13,13 @@ ReqSms::ReqSms(const string& tkn) : Request(tkn), position_sms_in_query(0)
 void ReqSms::parse (const string& xml)
 {
     TiXmlDocument *doc = _check_incoming_xml(xml);
-    vector<TiXmlElement*> *items = getElementsByName(doc, "information");
+    vector<TiXmlElement*> items = getElementsByName(doc, "information");
 
-    if (NULL != items) {
+    if (!items.empty()) {
         Sms *sms;
         TiXmlElement *el;
         int pos;
-        for (vector<TiXmlElement*>::iterator i = items->begin(); i < items->end(); ++i) {
+        for (vector<TiXmlElement*>::iterator i = items.begin(); i < items.end(); ++i) {
             el = dynamic_cast<TiXmlElement*>((*i));
             pos = atoi(el->Attribute("number_sms")) -1;
             try {
@@ -32,7 +32,7 @@ void ReqSms::parse (const string& xml)
                     sms->operator_id = el->Attribute("id_sms");
             } catch (exception &e) {}
         }
-        items->clear();
+        items.clear();
     }
     delete doc;
 }

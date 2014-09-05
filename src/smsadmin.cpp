@@ -308,6 +308,4 @@ string get_message_from_file(const string &name)
     file.close();
     return out.str();
 }
-
-
 }
