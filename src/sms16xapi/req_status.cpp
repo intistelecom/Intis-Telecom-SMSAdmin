@@ -14,13 +14,13 @@ ReqStatus::ReqStatus(const string& tkn) : Request(tkn)
 void ReqStatus::parse(const string &xml)
 {
     TiXmlDocument *doc = _check_incoming_xml(xml);
-    vector<TiXmlElement*> *items = getElementsByName(doc, "state");
+    vector<TiXmlElement*> items = getElementsByName(doc, "state");
 
-    if (NULL != items) {
+    if (!items.empty()) {
         Status *sms;
         TiXmlElement *el;
         string pos;
-        for (vector<TiXmlElement*>::iterator i = items->begin(); i < items->end(); ++i) {
+        for (vector<TiXmlElement*>::iterator i = items.begin(); i < items.end(); ++i) {
             el = dynamic_cast<TiXmlElement*>((*i));
             pos = el->Attribute("id_sms");
             try {
@@ -33,7 +33,7 @@ void ReqStatus::parse(const string &xml)
                     sms->set_operator_err(el->Attribute("err"));
             } catch (exception &e) {}
         }
-        items->clear();
+        items.clear();
     }
     delete doc;
 }

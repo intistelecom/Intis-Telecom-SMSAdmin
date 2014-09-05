@@ -13,6 +13,11 @@ Request::Request(const string& tkn): token(tkn), children(), tags("")
 
 Request::~Request()
 {
+    if (!children.empty()) {
+        for (unsigned i = 0; i < children.size(); i++) {
+            delete children[i];
+        }
+    }
     children.clear();
 }
 
@@ -90,22 +95,19 @@ TiXmlElement* getElementByName(TiXmlDocument *doc, string const &elemt_value)
     return (NULL);
 }
 
-vector<TiXmlElement*>* getElementsByName(TiXmlDocument *doc, string const &elemt_value)
+vector<TiXmlElement*> getElementsByName(TiXmlDocument *doc, string const &elemt_value)
 {
     TiXmlElement *elem = doc->RootElement()->FirstChildElement(); //Tree root
 
-    vector<TiXmlElement*> *found = new vector<TiXmlElement*>();
+    vector<TiXmlElement*> found;
 
     while (elem) {
         if (!string(elem->Value()).compare(elemt_value))
-            found->push_back(elem);
+            found.push_back(elem);
         elem = elem->NextSiblingElement();
     }
 
-    if (found->empty())
-        return NULL;
-    else
-        return found;
+    return found;
 }
 
 }

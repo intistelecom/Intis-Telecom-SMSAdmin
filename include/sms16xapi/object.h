@@ -12,7 +12,7 @@ namespace sms16xapi {
 using namespace std;
 
 TiXmlElement* getElementByName(TiXmlDocument*, string const&);
-vector<TiXmlElement*>* getElementsByName(TiXmlDocument*, string const &);
+vector<TiXmlElement*> getElementsByName(TiXmlDocument*, string const &);
 
 class Object
 {
@@ -29,7 +29,7 @@ class Request: public Object
         virtual void parse(const string&) = 0;
         virtual string render();
         Request& add(Object*);
-        const vector<Object*>& get_children() { return children; };
+        const vector<Object*>& get_children() { return children; }
 
     protected:
         string _tags_before_children();
