@@ -33,10 +33,10 @@ struct Level
     int level;
     std::string name;
 };
-const Level DEBUG = {1, "debug"};
-const Level INFO  = {2, "info"};
-const Level WARN  = {3, "warn"};
-const Level ERROR = {4, "error"};
+const Level DEBUG  = {1, "debug"};
+const Level INFO   = {2, "info"};
+const Level WARN   = {3, "warn"};
+const Level ERROR1 = {4, "error"};
 
 /**
  * Implements replace string logic

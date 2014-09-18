@@ -4,8 +4,6 @@
 # LIBXMLPP_LIBRARIES
 # LIBXMLPP_FOUND
 # LIBXMLPP_INCLUDE_DIRS
-# LIBXMLPP_CFLAGS
-# LIBXMLPP_LINKFLAGS
 # LIBXMLPP_MIN_VERSION
 
 set(LIBXMLPP_MIN_VERSION 2.6)
@@ -18,7 +16,7 @@ find_path(LIBXMLPP_INCLUDE_DIRS
 
 find_library(LIBXMLPP_LIBRARIES
   NAMES tinyxml
-  PATHS "/usr/lib;/usr/lib64;/usr/local/lib;/usr/local/lib64"
+  PATHS ".;c:/windows/system32;/usr/lib;/usr/lib64;/usr/local/lib;/usr/local/lib64"
 )
 
 if (LIBXMLPP_INCLUDE_DIRS AND LIBXMLPP_LIBRARIES)
