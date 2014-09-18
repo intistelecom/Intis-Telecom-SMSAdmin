@@ -15,7 +15,7 @@ Log::Log() : inited(false), buffer(50), verbose(false), ignore_log(false)
     level_map[DEBUG.name] = DEBUG;
     level_map[INFO.name]  = INFO;
     level_map[WARN.name]  = WARN;
-    level_map[ERROR.name] = ERROR;
+    level_map[ERROR1.name] = ERROR1;
 }
 
 Log& Log::debug(const std::string &str, ...)
@@ -32,7 +32,7 @@ Log& Log::error(const std::string &str, ...)
 {
     va_list args;
     va_start (args, str);
-    _write(new Entity(ERROR), str, args);
+    _write(new Entity(ERROR1), str, args);
     va_end(args);
 
     return *(this);
