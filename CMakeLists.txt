@@ -20,12 +20,22 @@ if (UNIX)
     string(REGEX REPLACE "(\r?\n)+$" "" SMSADMIN_BUILD_DATE "${SMSADMIN_BUILD_DATE}")
 endif (UNIX)
 
+## Define default congigs
+if (WIN32)
+    set(SMSADMIN__CONF_FILE "./smsadmin.cfn")
+    set(SMSADMIN__LOG_FILE  "./smsadmin.log")
+endif(WIN32)
+if (UNIX)
+    set(SMSADMIN__CONF_FILE "/etc/smsadmin.cfn")
+    set(SMSADMIN__LOG_FILE  "/var/log/smsadmin.log")
+endif(UNIX)
+
 if (NOT SMSADMIN_DEFAULT_CONF_FILE)
-set(SMSADMIN_DEFAULT_CONF_FILE "/etc/smsadmin.cfn")
+    set(SMSADMIN_DEFAULT_CONF_FILE ${SMSADMIN__CONF_FILE})
 endif()
 
 if (NOT SMSADMIN_DEFAULT_LOG_FILE)
-set(SMSADMIN_DEFAULT_LOG_FILE "/var/log/smsadmin.log")
+    set(SMSADMIN_DEFAULT_LOG_FILE ${SMSADMIN__LOG_FILE})
 endif()
 
 set(SMSADMIN_MAKE_SCENARIO STATIC)
