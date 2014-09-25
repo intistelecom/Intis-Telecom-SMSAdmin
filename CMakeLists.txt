@@ -20,7 +20,7 @@ if (UNIX)
     string(REGEX REPLACE "(\r?\n)+$" "" SMSADMIN_BUILD_DATE "${SMSADMIN_BUILD_DATE}")
 endif (UNIX)
 
-## Define default congigs
+## Define default configs
 if (WIN32)
     set(SMSADMIN__CONF_FILE "./smsadmin.cfn")
     set(SMSADMIN__LOG_FILE  "./smsadmin.log")

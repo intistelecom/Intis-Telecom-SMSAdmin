@@ -5,6 +5,7 @@ SET(CMAKE_SYSTEM_NAME Windows)
 SET(CMAKE_C_COMPILER i686-w64-mingw32-gcc)
 SET(CMAKE_CXX_COMPILER i686-w64-mingw32-g++)
 SET(CMAKE_RC_COMPILER i686-w64-mingw32-windres)
+SET(CMAKE_CXX_FLAGS "-fexec-charset=cp1251" ${CMAKE_CXX_FLAGS})
 
 # here is the target environment located
 SET(CMAKE_FIND_ROOT_PATH /opt/mingw-w32)
