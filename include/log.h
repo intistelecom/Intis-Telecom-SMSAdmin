@@ -22,7 +22,11 @@
 namespace smsadmin {
 namespace log {
 
+#ifdef __unix__
 const std::string ISO8601 = "%FT%T%z"; /// ISO 8601 Time format
+#elif defined(WIN32)
+const std::string ISO8601 = "%Y-%m-%dT%X";
+#endif
 
 /**
  * Init log levels
