@@ -29,6 +29,11 @@ Send sms using section in config file. Config file sintax is simple. See example
 Get sms delivery state. Last two params are an operator sms ids, recived from send sms stage
 ./smsadmin state -t 587d68b3aa1d80065a5b923f348b33fe688d8437 4075204902457125200002 4075204902457130390009
 
+KNOWN BUGS
+============
+
+1. On Windows systems use only latin-1 (ASCII) symbols
+
 REQUIREMENTS
 ============
 
@@ -72,13 +77,14 @@ CMAKE BUILD PARAMETERS
 | Build option name                | Description | Default value | Example |
 | SMSADMIN_DEFAULT_CONF_FILE       | Configuration file name by default on empty usage option -c | /etc/smsadmin.cfn | ./smsa.cfn |
 | SMSADMIN_DEFAULT_LOG_FILE        | Log file name by default | /var/log/smsadmin.log | ./smsadmin.log |
-| SMSADMIN_MAKE_SHARED             | Static library linking: boost, sms16xapi, libstdc++, libgcc | OFF | cmake -DSMSADMIN_MAKE_SHARED=ON |
+| SMSADMIN_MAKE_SHARED             | Static library linking: boost, sms16xapi | OFF | cmake -DSMSADMIN_MAKE_SHARED=ON |
 | SMSADMIN_SECURITY_PURIFY_DISABLE | Purify security information: token | OFF | cmake -DSMSADMIN_SECURITY_PURIFY_DISABLE=ON |
 
 CHANGE LOG
 ============
 version 1.1.0 "Subsistence Level"
 - #30 add win32 build instructions
+      add -cc to use default conf file SMSADMIN_DEFAULT_CONF_FILE
 
 version 1.0.1 "Subsistence Level"
 - #29 fix % usage in sms text

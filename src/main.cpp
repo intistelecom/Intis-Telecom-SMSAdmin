@@ -19,7 +19,12 @@ int main(int argc, char **argv)
     conf.parse_cmd_params(argc, argv);
 
     if (conf().count("conf") and !conf.has_error()) { /// Configuration file detected
-        conf.parse_config_file(conf["conf"].as<string>());
+
+        string conf_file = conf["conf"].as<string>();
+        if (0 == conf_file.compare("c"))
+            conf_file = SMSADMIN_DEFAULT_CONF_FILE;
+
+        conf.parse_config_file(conf_file);
         if (conf().count("tpl")) { /// Tpl option detected, join to config
             conf.join_tpl(conf["tpl"].as<string>());
         }
