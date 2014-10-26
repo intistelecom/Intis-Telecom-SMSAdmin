@@ -41,7 +41,7 @@ endif()
 set(SMSADMIN_MAKE_SCENARIO STATIC)
 if (SMSADMIN_MAKE_SHARED)
     set(SMSADMIN_MAKE_SCENARIO SHARED)
-elif(NOT WIN32)
+elif(NOT TRUE)
     set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 endif()
 
