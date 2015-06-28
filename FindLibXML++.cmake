@@ -11,12 +11,12 @@ set(LIBXMLPP_FOUND FALSE)
 
 find_path(LIBXMLPP_INCLUDE_DIRS
   NAMES tinyxml.h
-  PATHS "/usr/include;/usr/local/include"
+  PATHS "include;/usr/include;/usr/local/include"
 )
 
 find_library(LIBXMLPP_LIBRARIES
   NAMES tinyxml
-  PATHS ".;c:/windows/system32;/usr/lib;/usr/lib64;/usr/local/lib;/usr/local/lib64"
+  PATHS ".;c:/windows/system32;lib;/usr/lib;/usr/lib64;/usr/local/lib;/usr/local/lib64"
 )
 
 if (LIBXMLPP_INCLUDE_DIRS AND LIBXMLPP_LIBRARIES)
