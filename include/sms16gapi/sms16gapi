@@ -1,0 +1,6 @@
+#ifndef SMS16GAPI_H
+#define SMS16GAPI_H
+
+#include <sms16gapi/sms16gapi.h>
+
+#endif // SMS16GAPI_H

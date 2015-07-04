@@ -111,10 +111,12 @@ Config::Config():
              tr("Token for requested account. See your provider help to choose token"))
             ("log,l", po::value<string>()->default_value(SMSADMIN_DEFAULT_LOG_FILE), tr("Log file name"))
             ("conf,c", po::value<string>()->implicit_value(SMSADMIN_DEFAULT_CONF_FILE),
-             tr("Configuration file"))
+             tr("Configuration file. Use -cc for default configuration"))
             ("ignore-log", tr("Ignore file log"))
             ("level", po::value<string>()->default_value(log::DEBUG.name),
              tr("Log level: debug, info, warn, error"))
+            ("api", po::value<string>()->default_value(smsadmin::API_XML),
+             tr("API for requests: xml, json. Redefine urls if you use json api. See --stateurl, --balanceurl, --smsurl options"))
             ;
 
         send.add_options()

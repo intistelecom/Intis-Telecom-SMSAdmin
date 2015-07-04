@@ -2,28 +2,16 @@
 #include <map>
 #include <exception>
 #include <curl/curl.h>
-#include "smsadmin.h"
+#include "smsadmin_json.h"
 #include "translation.h"
 #include "smsadmin_general.h"
 
+#include <sms16xapi/sms16xapi> /// FIXME: Remove
+
 namespace smsadmin {
+namespace json {
 
 using namespace std;
-
-string help()
-{
-    ostringstream help;
-    help << endl
-         << tr("Smsadmin version: ") << SMSADMIN_VER_STRING << " \""
-         << SMSADMIN_VER_NAME << "\"" << endl
-         << tr("Sms16.ru API version: ") << sms16xapi::API_VERSION << endl
-         << tr("Build date: ") << SMSADMIN_BUILD_DATE << endl << endl
-         << config::Config::get_instance().help()
-         << endl
-         ;
-
-    return help.str();
-}
 
 static char error_buffer[CURL_ERROR_SIZE];
 CURLcode send_xml_request(const string &url, const string &post);
@@ -70,6 +58,7 @@ string balance()
     }
 
     logger.set_package(opkg);
+    answer += "API: json\n" ;
     return answer;
 }
 
@@ -280,5 +269,6 @@ CURLcode send_xml_request(const string &url, const string &post)
     }
     curl_easy_cleanup(curl);
     return result;
+}
 }
 }
