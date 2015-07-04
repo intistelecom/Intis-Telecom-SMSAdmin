@@ -21,6 +21,9 @@
 
 namespace smsadmin {
 
+const std::string API_XML = "xml";
+const std::string API_JSON = "json";
+
 const std::string ACTION_BALANCE = "balance";
 const std::string ACTION_SEND    = "send";
 const std::string ACTION_STATE   = "state";
