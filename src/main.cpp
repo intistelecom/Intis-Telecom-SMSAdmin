@@ -73,15 +73,20 @@ int main(int argc, char **argv)
             log::SecurityPurify::get_instance()
                     .add(conf["token"].as<string>(), "********");
 
-            string (*job)();
+            string (*job)() = NULL;
 
             if (API_JSON == api) {
-                if (ACTION_BALANCE == action)
-                    job = &json::balance;
-                if (ACTION_SEND == action)
-                    job = &json::send;
-                if (ACTION_STATE == action)
-                    job = &json::state;
+                if (!conf().count("login")) {
+                    logger.set_verbose(1).error(tr("Parameter --login is require with --api=json"));
+                    result = 1;
+                } else {
+                    if (ACTION_BALANCE == action)
+                        job = &json::balance;
+                    if (ACTION_SEND == action)
+                        job = &json::send;
+                    if (ACTION_STATE == action)
+                        job = &json::state;
+                }
             } else {
                 if (ACTION_BALANCE == action)
                     job = &balance;
@@ -90,14 +95,14 @@ int main(int argc, char **argv)
                 if (ACTION_STATE == action)
                     job = &state;
             }
-
-            cout << job();
+            if (NULL != job)
+                cout << job();
         } else {
             string answer(tr("Required parameter '--token' not set"));
             logger.set_verbose(1).error(answer);
             result = 1;
         }
     }
-
+    logger.dump();
     return result;
 }
