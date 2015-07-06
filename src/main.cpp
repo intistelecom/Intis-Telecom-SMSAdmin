@@ -1,5 +1,10 @@
 #include <iostream>
+#include "global.h"
+#include "log.h"
+#include "config.h"
 #include "translation.h"
+#include "security_purify.h"
+#include "smsadmin_general.h"
 #include "smsadmin.h"
 #include "smsadmin_json.h"
 
