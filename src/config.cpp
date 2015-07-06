@@ -3,7 +3,11 @@
 #include <exception>
 #include <typeinfo>
 #include <boost/regex.hpp>
-#include "smsadmin.h"
+#include <sms16xapi/constants.h>
+#include "global.h"
+#include "config.h"
+#include "log.h"
+#include "smsadmin_general.h"
 #include "translation.h"
 
 namespace smsadmin {
