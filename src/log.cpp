@@ -18,44 +18,29 @@ Log::Log() : inited(false), buffer(50), verbose(false), ignore_log(false)
     level_map[ERROR1.name] = ERROR1;
 }
 
-Log& Log::debug(const std::string &str, ...)
+Entity& Log::debug(const std::string &str)
 {
-    va_list args;
-    va_start (args, str);
-    _write(new Entity(DEBUG), str, args);
-    va_end(args);
-
-    return *(this);
+    buffer.push_back(new Entity(DEBUG, package, str));
+    return *(buffer.back());
 }
 
-Log& Log::error(const std::string &str, ...)
+Entity& Log::error(const std::string &str)
 {
-    va_list args;
-    va_start (args, str);
-    _write(new Entity(ERROR1), str, args);
-    va_end(args);
 
-    return *(this);
+    buffer.push_back(new Entity(ERROR1, package, str));
+    return *(buffer.back());
 }
 
-Log& Log::info (const std::string &str, ...)
+Entity& Log::info (const std::string &str)
 {
-    va_list args;
-    va_start(args, str);
-    _write(new Entity(INFO), str, args);
-    va_end(args);
-
-    return *(this);
+    buffer.push_back(new Entity(INFO, package, str));
+    return *(buffer.back());
 }
 
-Log& Log::warn (const std::string &str, ...)
+Entity& Log::warn (const std::string &str)
 {
-    va_list args;
-    va_start(args, str);
-    _write(new Entity(WARN), str, args);
-    va_end(args);
-
-    return *(this);
+    buffer.push_back(new Entity(WARN, package, str));
+    return *(buffer.back());
 }
 
 Log& Log::dump()
@@ -106,11 +91,11 @@ Log& Log::set_ignore_log (bool i)
 
 Log& Log::set_file (const std::string &file_name)
 {
+    Entity* ent;
     if (!ignore_log) {
         file.open(file_name.c_str(), std::ofstream::app);
         if (!file.is_open()) {
-            error(tr("Log file %s is not available: not found or has no write permissions"),
-                  file_name.c_str());
+            error(tr("Log file %s is not available: not found or has no write permissions"))(file_name);
         }
     }
     return *(this);

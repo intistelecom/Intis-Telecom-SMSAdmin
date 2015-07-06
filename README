@@ -45,6 +45,8 @@ Build tools:
 Shared libraries with headers:
 - boost-program-options 1.53+ (tested 1.53, 1.55)
 - boost-regex 1.53+           (tested 1.55)
+- boost-property_tree 1.55+   (tested 1.55)
+- boost-foreach 1.55+         (tested 1.55)
 - tinyxml 2.6+                (tested 2.6.1, 2.6.2)
 - curl 7.19+                  (tested 7.25.0, 7.19.7)
 
@@ -83,6 +85,7 @@ CMAKE BUILD PARAMETERS
 CHANGE LOG
 ============
 version 2.0.0 "Positive get/json"
+- #46 add get/json library sms16gapi
 - #45 refactor main logic and add new configuration option --api=
 
 version 1.1.0 "Subsistence Level"

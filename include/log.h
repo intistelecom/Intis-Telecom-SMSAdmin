@@ -53,7 +53,6 @@ std::string str_replace(const std::string&);
  */
 std::string format(const char* fmt, ...);
 std::string format(const char* fmt, va_list&);
-std::string fix_persent(const char* subject);
 
 class Entity;
 
@@ -68,10 +67,10 @@ class Log
 
         static Log& get_instance();
 
-        Log& debug(const std::string&, ...);
-        Log& error(const std::string&, ...);
-        Log& info (const std::string&, ...);
-        Log& warn (const std::string&, ...);
+        Entity& debug(const std::string&);
+        Entity& error(const std::string&);
+        Entity& info (const std::string&);
+        Entity& warn (const std::string&);
 
         /**
          * Save buffer to inited storage
@@ -144,6 +143,8 @@ class Entity
         std::string to_string();
         Entity* set_cmd(const std::string&);
         Entity* set_desc(const std::string&);
+        Entity& operator()(const std::string &);
+        Entity& operator<< (const std::string &arg);
     private:
         time_t rawtime;
         Level *level;

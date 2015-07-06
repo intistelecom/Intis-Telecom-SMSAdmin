@@ -21,7 +21,6 @@ string help()
     help << endl
          << tr("Smsadmin version: ") << SMSADMIN_VER_STRING << " \""
          << SMSADMIN_VER_NAME << "\"" << endl
-         << tr("Sms16.ru API version: ") << sms16xapi::API_VERSION << endl
          << tr("Build date: ") << SMSADMIN_BUILD_DATE << endl << endl
          << config::Config::get_instance().help()
          << endl
@@ -60,18 +59,15 @@ string balance()
 
         try {
             req.parse(xml); /// Sets attrs 'money', 'currency' for Balance *b
-            logger.info(tr("Balance for account by token %s is: %s %s"),
-                        token.c_str(),
-                        b->get_money().c_str(),
-                        b->get_currency().c_str()
-            );
+            logger.info(tr("Balance for account by token %s is: %s %s"))
+                    << token.c_str() << b->get_money().c_str() << b->get_currency().c_str();
             answer  = tr("Balance for account is: ");
             answer += b->get_money() + " " + b->get_currency() + "\n";
         } catch (exception &e) {
-            logger.set_verbose(1).error(tr("Catch error on parse: %s"), e.what());
+            logger.set_verbose(1).error(tr("Catch error on parse: %s")) << e.what();
         }
     } else {  
-        logger.set_verbose(1).error(tr("Network error: %s"), error_buffer);
+        logger.set_verbose(1).error(tr("Network error: %s")) << error_buffer;
     }
 
     logger.set_package(opkg);
@@ -140,11 +136,11 @@ string send()
         message = NULL;
         xml = request.render();
         logger.debug(xml);
-        logger.info(tr("Try send sms: originator '%s', text '%s', date '%s'"),
-            conf["originator"].as<string>().c_str(),
-            text.c_str(),
-            conf["date"].as<string>().c_str()
-        );
+        logger.info(tr("Try send sms: originator '%s', text '%s', date '%s'"))
+                << conf["originator"].as<string>().c_str()
+                << text.c_str()
+                << conf["date"].as<string>().c_str()
+                   ;
 
         CURLcode result = send_xml_request(url, xml);
 
@@ -160,12 +156,12 @@ string send()
                 for (vector<sx::Object*>::iterator sms = items.begin(); sms < items.end(); ++sms) {
                     message = dynamic_cast<sx::Sms*>((*sms));
                     logger.info(
-                        tr("phone %s, id sms %s, parts %s, send status '%s'"),
-                        message->recipient.c_str(),
-                        message->get_operator_id().c_str(),
-                        message->get_parts().c_str(),
-                        message->get_operator_text().c_str()
-                    );
+                        tr("phone %s, id sms %s, parts %s, send status '%s'"))
+                            << message->recipient.c_str()
+                            << message->get_operator_id().c_str()
+                            << message->get_parts().c_str()
+                            << message->get_operator_text().c_str()
+                               ;
                     out << tr("sms. ")
                         << tr("phone: ") << message->recipient << ", "
                         << tr("id sms: ") << message->get_operator_id() << ", "
@@ -174,10 +170,10 @@ string send()
                         << endl;
                 }
             } catch (exception &e) {
-                logger.set_verbose(1).error(tr("Catch error on parse: %s"), e.what());
+                logger.set_verbose(1).error(tr("Catch error on parse: %s")) << e.what();
             }
         } else {            
-            logger.set_verbose(1).error(tr("Network error: %s"), error_buffer);
+            logger.set_verbose(1).error(tr("Network error: %s")) << error_buffer;
         }
     }
 
@@ -234,12 +230,12 @@ string state()
                 for (vector<sx::Object*>::iterator s = items.begin(); s < items.end(); ++s) {
                     sts = dynamic_cast<sx::Status*>((*s));
                     logger.info(
-                        tr("status '%s', id %s, time '%s', error code %s"),
-                        sts->get_status().c_str(),
-                        sts->get_operator_id().c_str(),
-                        sts->get_crt_time().c_str(),
-                        sts->get_operator_err().c_str()
-                    );
+                        tr("status '%s', id %s, time '%s', error code %s"))
+                            << sts->get_status().c_str()
+                            << sts->get_operator_id().c_str()
+                            << sts->get_crt_time().c_str()
+                            << sts->get_operator_err().c_str()
+                               ;
                     out << tr("status. ")
                         << tr("sms state: ")   << sts->get_status().c_str() << ", "
                         << tr("sms id: ")      << sts->get_operator_id().c_str() << ", "
@@ -248,12 +244,12 @@ string state()
                         << endl;
                 }
             } catch (exception &e) {
-                logger.error(tr("Catch error on parse: %s"), e.what());
+                logger.error(tr("Catch error on parse: %s")) << e.what();
                 out << e.what();
             }
         } else {
             out << error_buffer;
-            logger.error(tr("Network error: %s"), error_buffer);
+            logger.error(tr("Network error: %s")) << error_buffer;
         }
     }
 

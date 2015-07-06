@@ -73,7 +73,7 @@ void Config::parse_cmd_params(int ac, char** av)
         po::notify(vm);
     } catch (exception &e) {
         is_error = true;
-        logger.error(tr("Catch cmd line parameters parser error: %s"), e.what());
+        logger.error(tr("Catch cmd line parameters parser error: %s")) << e.what();
     }
 
     logger.set_package(opkg);
@@ -91,7 +91,7 @@ void Config::parse_config_file(const string &file_name)
                     (*config_parsed).options, po::exclude_positional);
     } catch (exception &e) {
         is_error = true;
-        logger.error(tr("Catch config file parser error: %s"), e.what());
+        logger.error(tr("Catch config file parser error: %s")) << e.what();
     }
 
     logger.set_package(opkg);
@@ -121,6 +121,8 @@ Config::Config():
              tr("Log level: debug, info, warn, error"))
             ("api", po::value<string>()->default_value(smsadmin::API_XML),
              tr("API for requests: xml, json. Redefine urls if you use json api. See --stateurl, --balanceurl, --smsurl options"))
+            ("login", po::value<string>(),
+             tr("Login for requested account. Expected by json api"))
             ;
 
         send.add_options()
@@ -132,7 +134,7 @@ Config::Config():
             ("tpl,m", po::value<string>(), tr("Config template. Use with -c option"))
             ("smsurl", po::value<string>()->default_value(sms16xapi::SMS_URL), tr("Url for sending sms"))
             ("msgfile", po::value<string>(),
-             tr("(Testing) Text sms from file. Option 'text' will be ignore."))
+             tr("Text sms from file. Option 'text' will be ignore."))
             ;
 
         state.add_options()
@@ -154,7 +156,7 @@ Config::Config():
 
         all.add(general).add(send).add(balance).add(state).add(hidden);
     } catch (exception &e) {
-        logger.error(tr("Catch exception on config init: %s, %s"), typeid(e).name(), e.what());
+        logger.error(tr("Catch exception on config init: %s, %s")) << typeid(e).name() << e.what();
     }
     logger.set_package(opkg);
 }
@@ -191,15 +193,16 @@ void Config::join_tpl(const string &tpl)
             }
         }
     } catch (exception &e) {
-        logger.error(tr("Catch error while parse tpl '%s', option '%s': %s"),
-                     tpl.c_str(), nameT.c_str(), e.what());
+        logger.error(tr("Catch error while parse tpl '%s', option '%s': %s"))
+                << tpl.c_str() << nameT.c_str() << e.what();
         is_error = true;
         found = true;
     }
 
     if (!found) {
-        logger.warn(tr("Config section '%s' does not exists in config file"), tpl.c_str());
+        logger.warn(tr("Config section '%s' does not exists in config file")) << tpl.c_str();
     }
+    logger.dump();
     logger.set_package(opkg);
 }
 
@@ -275,7 +278,7 @@ void Config::join_config_params()
         delete config_parsed;
         po::notify(vm);
     } catch (exception &e) {
-        logger.error(tr("Catch error while config file parse: %s"), e.what());
+        logger.error(tr("Catch error while config file parse: %s")) << e.what();
         is_error = true;
     }
     logger.set_package(opkg);

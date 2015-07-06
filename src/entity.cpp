@@ -1,5 +1,7 @@
 #include <cstdio>
 #include <stdexcept>
+#include <sstream>
+#include <stdarg.h>
 #include <boost/regex.hpp>
 #include "log.h"
 #include "security_purify.h"
@@ -65,6 +67,18 @@ void Entity::_check_null_desc()
         throw std::invalid_argument(tr("Requered description parameter not set"));
 }
 
+Entity& Entity::operator<< (const std::string &arg) {
+    return (*this)(arg);
+}
+
+Entity& Entity::operator()(const std::string &arg) {
+    using namespace std;
+    string exp = "%s";
+    boost::regex token(exp);
+    desc = boost::regex_replace(desc, token, arg, boost::match_default | boost::format_first_only);
+    return (*this);
+}
+
 std::string format(const char* fmt, ...)
 {
     va_list vl;
@@ -76,10 +90,13 @@ std::string format(const char* fmt, ...)
 
 std::string format(const char* fmt, va_list &vl)
 {
+    using namespace std;
+
     int size = 1024;
     int nsize;
     char* buffer = NULL;
     va_list args;
+    string ret = fmt;
 
     while (1) {
         va_copy(args, vl);
@@ -93,18 +110,22 @@ std::string format(const char* fmt, va_list &vl)
         }
     }
 
-    std::string ret(buffer);
+    ret = buffer;
     delete[] buffer;
     return ret;
 }
 
 std::string str_replace(const std::string &subject)
 {
-    std::string exp = "[\\r\\n]";
-    std::string rep = "";
-    std::string out;
-    boost::regex e(exp);
+    using namespace std;
+    string exp = "[\\r\\n]";
+    string rep = "";
+    string out;
+    boost::regex e;
+
+    e.set_expression(exp);
     out = boost::regex_replace(subject, e, rep);
+
     return out;
 }
 
