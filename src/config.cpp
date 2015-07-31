@@ -202,7 +202,6 @@ void Config::join_tpl(const string &tpl)
     if (!found) {
         logger.warn(tr("Config section '%s' does not exists in config file")) << tpl.c_str();
     }
-    logger.dump();
     logger.set_package(opkg);
 }
 

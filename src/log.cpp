@@ -46,7 +46,7 @@ Entity& Log::warn (const std::string &str)
 Log& Log::dump()
 {
     if (!inited)
-        throw std::runtime_error(tr("Storage is not initialized yet"));
+        throw std::runtime_error(tr("Log storage is not initialized yet"));
 
     for (unsigned i=0; i<buffer.size(); i++)
     {
