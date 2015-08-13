@@ -22,6 +22,7 @@ namespace sg = sms16gapi;
 
 static char error_buffer[CURL_ERROR_SIZE];
 CURLcode send_get_request(const string &url);
+string get_service_timestamp();
 
 string balance()
 {
@@ -38,6 +39,9 @@ string balance()
     pt::ptree responce;
 
     sg::ReqBalance rb(login, token, "json");
+    if (!conf().count("use-local-time"))
+        rb.set_timestamp(get_service_timestamp());
+
     query = url + "?" + rb.render();
 
     logger.debug(query);
@@ -135,6 +139,8 @@ string send()
         sg::ReqSend request(login, token);
 
         request.set_text(text).set_sender(conf["originator"].as<string>());
+        if (!conf().count("use-local-time"))
+            request.set_timestamp(get_service_timestamp());
 
         for(vector<string>::iterator p = params.begin(); p < params.end(); ++p) {
             request.add_phone((*p));
@@ -242,6 +248,9 @@ string state()
         vector<string> params = conf["params"].as< vector<string> >();
         sg::ReqState request(login, token, "json");
 
+        if (!conf().count("use-local-time"))
+            request.set_timestamp(get_service_timestamp());
+
         for (vector<string>::iterator operator_id = params.begin();
              operator_id < params.end(); ++operator_id) {
             request.add_state((*operator_id));
@@ -311,7 +320,8 @@ string state()
     return out.str();
 }
 
-CURLcode send_get_request(const string &url)
+CURLcode
+send_get_request(const string &url)
 {
     CURL *curl;
     CURLcode result;
@@ -330,5 +340,36 @@ CURLcode send_get_request(const string &url)
     curl_easy_cleanup(curl);
     return result;
 }
+
+string
+get_service_timestamp()
+{
+    config::Config &conf = config::Config::get_instance();
+    log::Log &logger = log::Log::get_instance();
+    string opkg(logger.set_package("json::get_service_timestamp"));
+    string url = sms16gapi::STAMP_URL;
+    ostringstream out;
+
+    if (conf().count("stampurl")) {
+        url = conf["stampurl"].as<string>();
+    }
+    logger.debug(tr("Use timestamp url %s")) << url;
+    logger.debug(tr("Send request for service timestamp"));
+
+    CURLcode result = send_get_request(url);
+
+    if (CURLE_OK == result) {
+        out << buffer;
+        logger.debug(tr("Got service answer: %s")) << buffer;
+        buffer.clear();
+    } else {
+        out << "error";
+        logger.error(tr("Network error: %s")) << error_buffer;
+    }
+
+    logger.set_package(opkg);
+    return out.str();
+}
+
 }
 }

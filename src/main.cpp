@@ -73,7 +73,7 @@ int main(int argc, char **argv)
             log::SecurityPurify::get_instance()
                     .add(conf["token"].as<string>(), "********");
 
-            string (*job)() = NULL;
+            string (*job)() = &help;
 
             if (API_JSON == api) {
                 if (!conf().count("login")) {
@@ -95,8 +95,8 @@ int main(int argc, char **argv)
                 if (ACTION_STATE == action)
                     job = &state;
             }
-            if (NULL != job)
-                cout << job();
+
+            cout << job();
         } else {
             string answer(tr("Required parameter '--token' not set"));
             logger.set_verbose(1).error(answer);

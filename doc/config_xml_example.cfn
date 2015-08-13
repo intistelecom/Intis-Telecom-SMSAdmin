@@ -12,7 +12,7 @@
 # parameters: phones, sms ids.
 #
 
-token      = 587d68b3aa1d80065a5b923f348b33fe688d8437
+token      = 587d68b3aa1d80064a5b923f348b33fe688d8437
 action     = balance
 originator = Info
 log        = ./smsadmin.log

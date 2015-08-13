@@ -8,6 +8,8 @@ namespace sms16gapi {
 
 using namespace std;
 
+const string STAMP_URL   = "https://xml.sms16.ru/xml/state.php";
+
 /// Init ERROR_CODES constant
 map<string, string> init_error_codes() {
     map<string, string> errors;

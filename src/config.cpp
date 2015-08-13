@@ -123,6 +123,9 @@ Config::Config():
              tr("API for requests: xml, json. Redefine urls if you use json api. See --stateurl, --balanceurl, --smsurl options"))
             ("login", po::value<string>(),
              tr("Login for requested account. Expected by json api"))
+            ("stampurl", po::value<string>(),
+             tr("Url to get service timestamp for signature in GET/JSON API"))
+            ("use-local-time,s", tr("Use local machine clock to get timestamp for signature in GET/JSON API"))
             ;
 
         send.add_options()
