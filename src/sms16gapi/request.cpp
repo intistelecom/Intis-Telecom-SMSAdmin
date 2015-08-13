@@ -14,23 +14,35 @@ Request::Request(const string &lgn,
     login = lgn;
     token = tkn;
     api = api_type;
+    use_local_time = true;
+    last_timestamp = "-1";
 }
 
 string
 Request::generate_utc_timestamp()
 {
-    ostringstream out;
-    time_t rawtime, utctime;
-    struct tm * ptm;
+    if (use_local_time) {
+        ostringstream out;
+        time_t rawtime, utctime;
+        struct tm * ptm;
 
-    time(&rawtime);
-    ptm = gmtime (&rawtime);
-    utctime = mktime(ptm);
+        time(&rawtime);
+        ptm = gmtime (&rawtime);
+        utctime = mktime(ptm);
 
-    out << utctime;
-    last_timestamp = out.str();
+        out << utctime;
+        last_timestamp = out.str();
+    }
 
     return last_timestamp;
+}
+
+Request&
+Request::set_timestamp(const std::string &t)
+{
+    last_timestamp = t;
+    use_local_time = false;
+    return *this;
 }
 
 string

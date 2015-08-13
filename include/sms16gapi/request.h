@@ -19,12 +19,16 @@ public:
     /// ?login=test&signature=70a0a*****ff60681c&state=409129,401297&return=json&timestamp=1409887191
     virtual std::string render() = 0;
 
+    /// Set expected timestamp and ignore generate_utc_timestamp() logic
+    Request& set_timestamp(const std::string &t);
+
 protected:
     std::string login; /// user login
     std::string token; /// user api token
     std::string m_signature; /// request signature based on api
     std::string api; /// responce type "json"
     std::string last_timestamp;  /// request Unix timestamp in UTC
+    bool use_local_time; /// use generate_utc_timestamp() if true
 
     std::string generate_utc_timestamp(); /// return UTC timestamp and set last_timestamp
 

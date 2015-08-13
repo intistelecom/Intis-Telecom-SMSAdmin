@@ -148,6 +148,22 @@ h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display
 			<td><a href="/versions/7" class="version">2.0.0</a></td>
 			<td></td>
 		</tr>
+		<tr>
+			<td>--stampurl=</td>
+			<td>string</td>
+			<td>Нет</td>
+			<td>Адрес для получения метки времени, используемой при создании подписи. Необходим при использовании GET/JSON API</td>
+			<td><a href="/versions/9" class="version">2.1.0</a></td>
+			<td><a class="external" href="https://new.sms16.ru/get/timestamp.php">https://new.sms16.ru/get/timestamp.php</a></td>
+		</tr>
+		<tr>
+			<td>-s, --use-local-time</td>
+			<td>void</td>
+			<td>Нет</td>
+			<td>Использовать для подписи метку времени Unix (UTC), полученную с часов локального компьютера. Локальное время будет переведено в UTC. ВАЖНО: Время локальной машины должно быть точно (в пределах 60 секунд) синхронизировано и установлено в верный часовой пояс</td>
+			<td><a href="/versions/9" class="version">2.1.0</a></td>
+			<td></td>
+		</tr>
 	</table>
 
 

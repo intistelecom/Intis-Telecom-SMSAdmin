@@ -1,8 +1,8 @@
 SYNOPSIS
 ============
-Date: 2015/07/31
+Date: 2015/08/17
 Time: 07:00
-Version: 2.0.1
+Version: 2.1.0
 
 SmsAdmin is a command line utility for Win32 and *Unix like systems. The main utility purpose
 is to send extra notifications via sms service.
@@ -89,6 +89,9 @@ CMAKE BUILD PARAMETERS
 
 CHANGE LOG
 ============
+version 2.1.0 "Positive get/json"
+- #49 add service based timestamp
+
 version 2.0.1 "Positive get/json"
 - #48 fix "Storage not inited yet" error with config sections
 
