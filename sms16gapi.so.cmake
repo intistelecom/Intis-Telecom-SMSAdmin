@@ -1,5 +1,5 @@
 set(SMS16GAPI "sms16gapi")
-set(SMS16GAPI_VER_MAJOR 2)
+set(SMS16GAPI_VER_MAJOR 3)
 set(SMS16GAPI_VER_MINOR 0)
 set(SMS16GAPI_VER_PATCH 0)
 set(SMS16GAPI_VER_STRING "${SMS16GAPI_VER_MAJOR}.${SMS16GAPI_VER_MINOR}.${SMS16GAPI_VER_PATCH}")
@@ -7,6 +7,7 @@ set(SMS16GAPI_HDR
     "./include/sms16gapi/sms16gapi"
     "./include/sms16gapi/sms16gapi.h"
     "./include/sms16gapi/constants.h"
+    "./include/sms16gapi/error_codes.h"
     "./include/sms16gapi/request.h"
     "./include/sms16gapi/req_balance.h"
     "./include/sms16gapi/req_send.h"
@@ -18,6 +19,7 @@ set(SMS16GAPI_SRC
     "./src/sms16gapi/req_balance.cpp"
     "./src/sms16gapi/req_send.cpp"
     "./src/sms16gapi/req_state.cpp"
+    "./src/sms16gapi/error_codes.cpp"
     )
 
 add_library(${SMS16GAPI}

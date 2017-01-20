@@ -1,12 +1,12 @@
 SYNOPSIS
 ============
-Date: 2015/08/17
-Time: 07:00
-Version: 2.1.0
+Date: 2017/01/20
+Time: 13:00
+Version: 3.0.0
 
 SmsAdmin is a command line utility for Win32 and *Unix like systems. The main utility purpose
 is to send extra notifications via sms service.
-This utility use only sms16.ru service (http://sms16.ru/)
+This utility use only intistele.com service (http://intistele.com/)
 
 BASIC USAGE
 ============
@@ -18,12 +18,12 @@ Produce help information about actions, options and params
 ./smsadmin --help
 
 Send sms from command line
-./smsadmin send -o Info -x "Send some message" -t 587d68b3aa1d80065a5b923f348b33fe688d8437 -l ./sms.log 79046650055 79056687711
+./smsadmin send -o Info -x "Send some message" --login=MyLogin -t 587d68b3aa1d80065a5b923f348b33fe688d8437 -l ./sms.log 79046650055 79056687711
 
 Send sms from command line with json api
 NOTE: System clock should be synchronized with some NTP server for correct signature generation
 ./smsadmin send -o Info -x "Send some message" -t 587d68b3aa1d80065a5b923f348b33fe688d8437 \
--l ./sms.log --api=json --login=MyLogin 79046650055 79056687711
+-l ./sms.log --login=MyLogin 79046650055 79056687711
 
 Send sms using config file. In config file options are set by long names without first dashes
 ./smsadmin send -c ./sms.cfn 79046650055
@@ -44,7 +44,7 @@ REQUIREMENTS
 
 Build tools:
 - cmake 2.8+     (tested 2.8.11, 2.8.12)
-- gcc-c++ 4.4.7+ (tested 4.4.7, 4.7.1)
+- gcc-c++ 4.4.7+ (tested 4.4.7, 4.7.1, 4.8.5)
 - make 3.81+     (tested GNU 3.81, 3.82)
 
 Shared libraries with headers:
@@ -52,8 +52,7 @@ Shared libraries with headers:
 - boost-regex 1.53+           (tested 1.55)
 - boost-property_tree 1.55+   (tested 1.55)
 - boost-foreach 1.55+         (tested 1.55)
-- tinyxml 2.6+                (tested 2.6.1, 2.6.2)
-- curl 7.19+                  (tested 7.25.0, 7.19.7)
+- curl 7.19+                  (tested 7.25.0, 7.19.7, 7.37.0)
 
 INSTALL
 ============
@@ -89,6 +88,9 @@ CMAKE BUILD PARAMETERS
 
 CHANGE LOG
 ============
+version 3.0.0 "Production activity"
+ - #1 removed old xml integration
+
 version 2.1.0 "Positive get/json"
 - #49 add service based timestamp
 

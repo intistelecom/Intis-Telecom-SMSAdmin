@@ -1,6 +1,0 @@
-#ifndef SMS16AXPI_INCLUDED
-#define SMS16AXPI_INCLUDED
-
-#include <sms16xapi/sms16xapi.h>
-
-#endif // SMS16AXPI_INCLUDED
