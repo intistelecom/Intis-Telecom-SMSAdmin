@@ -3,7 +3,9 @@
 #include <exception>
 #include <typeinfo>
 #include <boost/regex.hpp>
-#include <sms16xapi/constants.h>
+
+#include <sms16gapi/constants.h>
+
 #include "global.h"
 #include "config.h"
 #include "log.h"
@@ -119,8 +121,6 @@ Config::Config():
             ("ignore-log", tr("Ignore file log"))
             ("level", po::value<string>()->default_value(log::DEBUG.name),
              tr("Log level: debug, info, warn, error"))
-            ("api", po::value<string>()->default_value(smsadmin::API_XML),
-             tr("API for requests: xml, json. Redefine urls if you use json api. See --stateurl, --balanceurl, --smsurl options"))
             ("login", po::value<string>(),
              tr("Login for requested account. Expected by json api"))
             ("stampurl", po::value<string>(),
@@ -131,22 +131,22 @@ Config::Config():
         send.add_options()
             ("originator,o", po::value<string>(), tr("Sender name"))
             ("text,x", po::value<string>(), tr("Text sms"))
-            ("date,d", po::value<string>()->default_value(sms16xapi::DEFAULT_DATE)
+            ("date,d", po::value<string>()->default_value(sms16gapi::DEFAULT_DATE)
                                           ->value_name(tr("\"yyyy-mm-dd hh:mm:ss\"")),
              tr("Send date. If not set, sms will be send immediately. NOTE: use qoutes for value"))
             ("tpl,m", po::value<string>(), tr("Config template. Use with -c option"))
-            ("smsurl", po::value<string>()->default_value(sms16xapi::SMS_URL), tr("Url for sending sms"))
+            ("smsurl", po::value<string>()->default_value(sms16gapi::SMS_URL), tr("Url for sending sms"))
             ("msgfile", po::value<string>(),
              tr("Text sms from file. Option 'text' will be ignore."))
             ;
 
         state.add_options()
-            ("stateurl", po::value<string>()->default_value(sms16xapi::STATE_URL),
+            ("stateurl", po::value<string>()->default_value(sms16gapi::STATE_URL),
              tr("Url to get sent sms status"))
             ;
 
         balance.add_options()
-            ("balanceurl", po::value<string>()->default_value(sms16xapi::BALANCE_URL),
+            ("balanceurl", po::value<string>()->default_value(sms16gapi::BALANCE_URL),
              tr("Url to get account balance"))
             ;
 
