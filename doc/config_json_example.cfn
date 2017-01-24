@@ -18,22 +18,14 @@ originator = Info
 log        = ./smsadmin.log
 level      = warn
 
-smsurl     = https://new.sms16.ru/get/send.php
-stateurl   = https://new.sms16.ru/get/status.php
-balanceurl = https://new.sms16.ru/get/balance.php
-stampurl   = https://new.sms16.ru/get/timestamp.php
+smsurl     = https://go.intistele.com/external/get/send.php
+stateurl   = https://go.intistele.com/external/get/status.php
+balanceurl = https://go.intistele.com/external/get/balance.php
+stampurl   = https://go.intistele.com/external/get/timestamp.php
 login      = test2
-api        = json
 
 [sms1]
 originator = Sms1Test
 text   = Send some message
 params = 79046650055 
 params = 79056687711
-
-[state1]
-api = xml
-action = state
-stateurl = https://xml.sms16.ru/xml/state.php
-params = 4075204902457125200002
-params = 4075204902457130390009

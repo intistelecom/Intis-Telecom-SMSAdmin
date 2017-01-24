@@ -5,7 +5,6 @@
 
 namespace smsadmin {
 
-const std::string API_XML = "xml";
 const std::string API_JSON = "json";
 
 const std::string ACTION_BALANCE = "balance";
@@ -16,6 +15,8 @@ const std::string ACTION_HELP    = "help";
 static std::string buffer;
 int writer(char *data, unsigned long size, unsigned long nmemb, std::string *buffer);
 std::string get_message_from_file(const std::string&);
+
+std::string help();    /// Creates formated string with help
 
 }
 

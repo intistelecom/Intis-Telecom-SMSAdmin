@@ -5,7 +5,6 @@
 #include "translation.h"
 #include "security_purify.h"
 #include "smsadmin_general.h"
-#include "smsadmin.h"
 #include "smsadmin_json.h"
 
 using namespace std;
@@ -21,7 +20,6 @@ int main(int argc, char **argv)
         .set_package("init");
 
     string action(ACTION_HELP);
-    string api(API_XML);
 
     conf.parse_cmd_params(argc, argv);
 
@@ -40,10 +38,6 @@ int main(int argc, char **argv)
 
     if (conf().count("action") and !conf().count("help") and !conf.has_error()) {
         action = conf["action"].as<string>();
-    }
-
-    if (conf().count("api") and !conf.has_error()) {
-        api = conf["api"].as<string>();
     }
 
     if (ACTION_HELP == action) {
@@ -75,25 +69,16 @@ int main(int argc, char **argv)
 
             string (*job)() = &help;
 
-            if (API_JSON == api) {
-                if (!conf().count("login")) {
-                    logger.set_verbose(1).error(tr("Parameter --login is require with --api=json"));
-                    result = 1;
-                } else {
-                    if (ACTION_BALANCE == action)
-                        job = &json::balance;
-                    if (ACTION_SEND == action)
-                        job = &json::send;
-                    if (ACTION_STATE == action)
-                        job = &json::state;
-                }
+            if (!conf().count("login")) {
+                logger.set_verbose(1).error(tr("Parameter --login is require with json api"));
+                result = 1;
             } else {
                 if (ACTION_BALANCE == action)
-                    job = &balance;
+                    job = &json::balance;
                 if (ACTION_SEND == action)
-                    job = &send;
+                    job = &json::send;
                 if (ACTION_STATE == action)
-                    job = &state;
+                    job = &json::state;
             }
 
             cout << job();
