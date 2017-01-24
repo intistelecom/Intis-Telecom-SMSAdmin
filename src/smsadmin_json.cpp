@@ -187,13 +187,13 @@ string send()
                 }
 
                 BOOST_FOREACH(pt::ptree::value_type &ch, responce) {
-                    BOOST_FOREACH(pt::ptree::value_type &op, ch.second) {
-                        info["phone"] = op.first;
-                        info["id_sms"] = op.second.get<string>("id_sms", "-");
-                        info["count_sms"] = op.second.get<string>("count_sms", "-");
-                        info["error"] = op.second.get<string>("error", "-");
-                        info["cost"] = op.second.get<string>("cost", "-");
-                    }
+
+                    info["phone"] = ch.first;
+                    info["id_sms"] = ch.second.get<string>("id_sms", "-");
+                    info["count_sms"] = ch.second.get<string>("count_sms", "-");
+                    info["error"] = ch.second.get<string>("error", "-");
+                    info["cost"] = ch.second.get<string>("cost", "-");
+
 
                     out << tr("sms. ")
                         << tr("phone: ") << info["phone"] << ", "
