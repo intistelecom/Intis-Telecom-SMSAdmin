@@ -90,7 +90,8 @@ CHANGE LOG
 ============
 version 3.0.0 "Production activity"
  - #1 removed old xml integration
- - #7 in the balance inquiry display option "bonusAmount"
+ - #7 in the balance query display option "bonusAmount"
+ - #6 schedule sms sending
 
 version 2.1.0 "Positive get/json"
 - #49 add service based timestamp
