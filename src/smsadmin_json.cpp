@@ -73,7 +73,9 @@ string balance()
 
             out << tr("Balance for account is: ")
                 << responce.get<string>("money", "-")
-                << responce.get<string>("currency", "-")                
+                << responce.get<string>("currency", "-")
+                << ", bonus amount: "
+                << responce.get<string>("bonusAmount", "0")
                 << endl
                 ;
         } catch (exception &e) {
