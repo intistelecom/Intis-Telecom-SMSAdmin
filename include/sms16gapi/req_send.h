@@ -26,10 +26,14 @@ public:
     /// Set message text
     ReqSend& set_text(const std::string &message);
 
+    /// Set sending time for message
+    ReqSend& set_sending_time(const std::string &st);
+
 protected:
     virtual std::string signature();
     std::string sender; /// Message sender name
     std::string text; /// Message text
+    std::string sending_time; /// Date and time for sms sending
     std::vector<std::string>phone; /// Message recipients
 };
 

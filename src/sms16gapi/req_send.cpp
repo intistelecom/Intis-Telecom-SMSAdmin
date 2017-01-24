@@ -1,5 +1,6 @@
 #include <sstream>
 #include <sms16gapi/req_send.h>
+#include <sms16gapi/constants.h>
 #include "../md5/md5.h"
 
 namespace sms16gapi {
@@ -10,7 +11,9 @@ ReqSend::ReqSend(const std::string &l,
                        const std::string &t,
                        const std::string &a
                        ): Request(l, t, a), phone()
-{}
+{
+    sending_time = "";
+}
 
 string
 ReqSend::render()
@@ -31,6 +34,12 @@ ReqSend::render()
         << "timestamp=" << last_timestamp
         ;
 
+    if (!sending_time.empty()) {
+        out << "&"
+            << "sendingTime="
+            << url_escape(sending_time);
+    }
+
     return out.str();
 }
 
@@ -42,6 +51,7 @@ ReqSend::signature()
         << implode_string_array(phone)
         << api /// "return"
         << sender
+        << sending_time
         << text
         << generate_utc_timestamp() /// "timestamp"
         << token;
@@ -69,6 +79,16 @@ ReqSend&
 ReqSend::set_text(const string &message)
 {
     text = message;
+    return *this;
+}
+
+ReqSend&
+ReqSend::set_sending_time(const string &st)
+{
+    if (0 != st.compare(DEFAULT_DATE))
+    {
+        sending_time = st;
+    }
     return *this;
 }
 

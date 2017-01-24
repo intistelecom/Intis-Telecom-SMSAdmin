@@ -140,7 +140,10 @@ string send()
         vector<string> params = conf["params"].as< vector<string> >();
         sg::ReqSend request(login, token);
 
-        request.set_text(text).set_sender(conf["originator"].as<string>());
+        request.set_text(text)
+                .set_sender(conf["originator"].as<string>())
+                .set_sending_time(conf["date"].as<string>());
+
         if (!conf().count("use-local-time"))
             request.set_timestamp(get_service_timestamp());
 
