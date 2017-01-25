@@ -79,6 +79,8 @@ int main(int argc, char **argv)
                     job = &json::send;
                 if (ACTION_STATE == action)
                     job = &json::state;
+                if (ACTION_OPERATOR == action)
+                    job = &json::operator_info;
             }
 
             cout << job();

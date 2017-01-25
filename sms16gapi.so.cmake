@@ -12,6 +12,7 @@ set(SMS16GAPI_HDR
     "./include/sms16gapi/req_balance.h"
     "./include/sms16gapi/req_send.h"
     "./include/sms16gapi/req_state.h"
+    "./include/sms16gapi/req_operator.h"
     )
 set(SMS16GAPI_SRC
     "./md5/md5.cpp"
@@ -20,10 +21,11 @@ set(SMS16GAPI_SRC
     "./src/sms16gapi/req_send.cpp"
     "./src/sms16gapi/req_state.cpp"
     "./src/sms16gapi/error_codes.cpp"
+    "./src/sms16gapi/req_operator.cpp"
     )
 
 add_library(${SMS16GAPI}
-            ${SMSADMIN_MAKE_SCENARIO}
+            STATIC
             ${SMS16GAPI_SRC}
             ${SMS16AXPI_HDR}
             )

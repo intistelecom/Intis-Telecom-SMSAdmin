@@ -71,6 +71,7 @@ class Config
                                 send,
                                 state,
                                 balance,
+                                operator_info,
                                 hidden;
         po::positional_options_description numeric;
         po::variables_map vm;
