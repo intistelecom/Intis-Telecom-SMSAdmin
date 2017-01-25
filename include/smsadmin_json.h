@@ -19,6 +19,7 @@ namespace json {
 std::string balance(); /// Returns balance for the given account
 std::string send();    /// Process send sms scenario
 std::string state();   /// Get state for sms
+std::string operator_info(); /// Get operator informatopn by phone number
 
 }
 }

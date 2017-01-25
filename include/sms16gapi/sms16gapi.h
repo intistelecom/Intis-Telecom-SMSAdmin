@@ -7,5 +7,6 @@
 #include <sms16gapi/req_balance.h>
 #include <sms16gapi/req_send.h>
 #include <sms16gapi/req_state.h>
+#include <sms16gapi/req_operator.h>
 
 #endif // SMS16GAPI_H_INCLUDE

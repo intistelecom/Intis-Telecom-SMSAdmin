@@ -11,6 +11,7 @@ const std::string ACTION_BALANCE = "balance";
 const std::string ACTION_SEND    = "send";
 const std::string ACTION_STATE   = "state";
 const std::string ACTION_HELP    = "help";
+const std::string ACTION_OPERATOR = "operator";
 
 static std::string buffer;
 int writer(char *data, unsigned long size, unsigned long nmemb, std::string *buffer);

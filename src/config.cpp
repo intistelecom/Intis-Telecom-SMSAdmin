@@ -25,6 +25,7 @@ string Config::help()
          << tr("  balance - shows balance for account by token") << endl
          << tr("  send    - sends sms") << endl
          << tr("  state   - get sms delivery state") << endl
+         << tr("  operator- get operator info by phone number") << endl
          << endl
          << general
          << endl
@@ -33,6 +34,8 @@ string Config::help()
          << state
          << endl
          << balance
+         << endl
+         << operator_info
          ;
 
     return help.str();
@@ -104,6 +107,7 @@ Config::Config():
     send(tr("Send action options")),
     state(tr("State action options")),
     balance(tr("Balance action options")),
+    operator_info(tr("Operator action options")),
     is_error(false)
 {
     log::Log &logger = log::Log::get_instance();
@@ -150,6 +154,11 @@ Config::Config():
              tr("Url to get account balance"))
             ;
 
+        operator_info.add_options()
+            ("operatorurl", po::value<string>()->default_value(sms16gapi::OPERATOR_URL),
+             tr("Url to get operator info by phone number"))
+            ;
+
         hidden.add_options()
             ("action", po::value<string>()->default_value(ACTION_HELP), tr("Action to execute"))
             ("params", po::value< vector<string> >(), tr("Explicit command line params"))
@@ -157,7 +166,14 @@ Config::Config():
 
         numeric.add("action", 1).add("params", -1);
 
-        all.add(general).add(send).add(balance).add(state).add(hidden);
+        all
+            .add(general)
+            .add(send)
+            .add(balance)
+            .add(state)
+            .add(operator_info)
+            .add(hidden);
+
     } catch (exception &e) {
         logger.error(tr("Catch exception on config init: %s, %s")) << typeid(e).name() << e.what();
     }

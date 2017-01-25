@@ -17,6 +17,7 @@ const string BALANCE_URL = "https://go.intistele.com/external/get/balance.php";
 const string SMS_URL     = "https://go.intistele.com/external/get/send.php";
 const string STATE_URL   = "https://go.intistele.com/external/get/status.php";
 const string STAMP_URL   = "https://go.intistele.com/external/get/timestamp.php";
+const string OPERATOR_URL = "https://go.intistele.com/external/get/operator.php";
 const string DEFAULT_DATE = "now";
 
 /// Init ERROR_CODES constant

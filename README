@@ -83,7 +83,7 @@ CMAKE BUILD PARAMETERS
 | Build option name                | Description | Default value | Example |
 | SMSADMIN_DEFAULT_CONF_FILE       | Configuration file name by default on empty usage option -c | /etc/smsadmin.cfn | ./smsa.cfn |
 | SMSADMIN_DEFAULT_LOG_FILE        | Log file name by default | /var/log/smsadmin.log | ./smsadmin.log |
-| SMSADMIN_MAKE_SHARED             | Static library linking: boost, sms16xapi | OFF | cmake -DSMSADMIN_MAKE_SHARED=ON |
+| SMSADMIN_MAKE_SHARED             | Static library linking: boost | ON | cmake -DSMSADMIN_MAKE_SHARED=OFF |
 | SMSADMIN_SECURITY_PURIFY_DISABLE | Purify security information: token | OFF | cmake -DSMSADMIN_SECURITY_PURIFY_DISABLE=ON |
 
 CHANGE LOG
@@ -91,8 +91,9 @@ CHANGE LOG
 version 3.0.0 "Production activity"
 - #1 removed old xml integration
 - #7 in the balance query display option "bonusAmount"
-- #6 schedule sms sending
-- #5 sms send responce fix
+- #6 added schedule sms sending
+- #5 sms send responce structure fix
+- #8 added "operator" request: operator and price information by phone number
 
 version 2.1.0 "Positive get/json"
 - #49 add service based timestamp
