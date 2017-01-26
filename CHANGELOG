@@ -1,0 +1,48 @@
+CHANGE LOG
+============
+version 3.0.0 "Production activity"
+- #1 removed old xml integration
+- #7 in the balance query display option "bonusAmount"
+- #6 added schedule sms sending
+- #5 sms send responce structure fix
+- #8 added "operator" request: operator and price information by phone number
+
+version 2.1.0 "Positive get/json"
+- #49 add service based timestamp
+
+version 2.0.1 "Positive get/json"
+- #48 fix "Storage not inited yet" error with config sections
+
+version 2.0.0 "Positive get/json"
+- #46 add get/json library sms16gapi
+- #45 refactor main logic and add new configuration option --api=
+
+version 1.1.0 "Subsistence Level"
+- #30 add win32 build instructions
+      add -cc to use default conf file SMSADMIN_DEFAULT_CONF_FILE
+
+version 1.0.1 "Subsistence Level"
+- #29 fix % usage in sms text
+
+version 1.0.0 "Subsistence Level"
+- #19 use tr() for translation logic in future
+- #27 use text file content for sms text (--msgfile=)
+- #15 add purifier for token
+- #25 fix double param error
+- #26 add mask in help message for 'date' option
+- #22 add config template logic
+- #21 check deliver status of sms by operator id using comand line parameters
+- #20 send sms with command line & global config parameters
+- #23 add configuration file
+- #17 add log file
+- #24 add static linking of boost, sms16xapi, libgcc, libstdc++ by default
+- #18 new line clear in log messages
+
+version 0.1.1 "Cold Start"
+- #12 add build for shared library sms16xapi.so
+- #12 add uninstall taget for project as execute of ./build/delete.me
+
+version 0.1.0 "Cold Start"
+- #9  process help information for a program (smsadmin --help)
+- #11 checks balance for account by token (smsadmin balance -t <token>)
+- #8  use verbose output to console (-v option)
