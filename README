@@ -3,6 +3,7 @@ SYNOPSIS
 Date: 2017/01/20
 Time: 13:00
 Version: 3.0.0
+License: MIT
 
 SmsAdmin is a command line utility for Win32 and *Unix like systems. The main utility purpose
 is to send extra notifications via sms service.
