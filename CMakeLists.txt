@@ -67,7 +67,7 @@ include(./sms16gapi.so.cmake)
 target_link_libraries(${TARGET} ${SMS16GAPI})
 
 set_target_properties(${TARGET}
-   PROPERTIES BUILD_WITH_INSTALL_RPATH OFF
+   PROPERTIES BUILD_WITH_INSTALL_RPATH ON
    INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/${INSTALL_LIB_DIR}
    INSTALL_NAME_DIR bin
    )

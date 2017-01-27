@@ -26,7 +26,7 @@
 
 #include <string>
 #include <map>
-#include <sms16gapi/errors_codes.h>
+#include <sms16gapi/error_codes.h>
 
 namespace sms16gapi {
 
