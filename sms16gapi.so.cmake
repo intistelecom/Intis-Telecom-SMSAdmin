@@ -38,8 +38,7 @@ set_target_properties(
 find_package(Boost REQUIRED)
 
 set_target_properties(${SMS16GAPI}
-   PROPERTIES BUILD_WITH_INSTALL_RPATH ON
-   INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/${INSTALL_LIB_DIR}
+   PROPERTIES
    PUBLIC_HEADER "${SMS16GAPI_HDR}"
    )
 
