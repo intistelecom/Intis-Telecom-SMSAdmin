@@ -6,6 +6,9 @@ version 3.0.0 "Production activity"
 - #6 added schedule sms sending
 - #5 sms send responce structure fix
 - #8 added "operator" request: operator and price information by phone number
+- #3 added MIT license
+- #4 added CHANGELOG file
+- #9 added RPM build specs for CentOS6, CentOS7
 
 version 2.1.0 "Positive get/json"
 - #49 add service based timestamp
